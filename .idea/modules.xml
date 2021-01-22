@@ -534,7 +534,6 @@
       <module fileurl="file://$PROJECT_DIR$/scratch/scratch.iml" filepath="$PROJECT_DIR$/scratch/scratch.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples10thEdition/supplemental/supplemental.iml" filepath="$PROJECT_DIR$/textbook_examples10thEdition/supplemental/supplemental.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples/textbook_examples.iml" filepath="$PROJECT_DIR$/textbook_examples/textbook_examples.iml" />
-      <module fileurl="file://$PROJECT_DIR$/textbook_examples10thEdition/textbook_examples10thEdition.iml" filepath="$PROJECT_DIR$/textbook_examples10thEdition/textbook_examples10thEdition.iml" />
     </modules>
   </component>
 </project>
