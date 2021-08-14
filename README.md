@@ -1,4 +1,4 @@
-Software Design ECE:3330 Fall 2020
+Software Design ECE:3330 Fall 2021
 =======================
 
 This page contains only partial supplementary information related to git.
