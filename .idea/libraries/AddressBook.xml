@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="AddressBook">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/textbook_examples/ch29/AddressBook/dist/AddressBook.jar!/" />
+      <root url="jar://$PROJECT_DIR$/textbook_examples_11th_edition/ch29/AddressBook/dist/AddressBook.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

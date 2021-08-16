@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="jars">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/textbook_examples/ch36/TimeApp/jars/com.deitel.timetest.jar!/" />
-      <root url="jar://$PROJECT_DIR$/textbook_examples/ch36/TimeApp/jars/com.deitel.timelibrary.jar!/" />
+      <root url="jar://$PROJECT_DIR$/textbook_examples_11th_edition/ch36/TimeApp/jars/com.deitel.timetest.jar!/" />
+      <root url="jar://$PROJECT_DIR$/textbook_examples_11th_edition/ch36/TimeApp/jars/com.deitel.timelibrary.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

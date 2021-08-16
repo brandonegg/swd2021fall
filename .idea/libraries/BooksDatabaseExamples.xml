@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="BooksDatabaseExamples">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/textbook_examples/ch29/BooksDatabaseExamples/dist/BooksDatabaseExamples.jar!/" />
+      <root url="jar://$PROJECT_DIR$/textbook_examples_11th_edition/ch29/BooksDatabaseExamples/dist/BooksDatabaseExamples.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
