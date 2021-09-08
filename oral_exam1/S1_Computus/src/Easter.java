@@ -1,10 +1,20 @@
 public class Easter {
     private int year;
+    private int month;
+    private int day;
     private String dateStr;
 
     Easter(int year) {
         this.year = year;
         this.dateStr = generateDateStr(year);
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getDate() {
+        return Integer.toString(day) + " " + getMonthFromInt(month);
     }
 
     public String toString() {
@@ -40,6 +50,8 @@ public class Easter {
         n = (h+l-7*m+90)/25;
         p = (h+l-7*m+33*n+19)%32;
 
+        day = p;
+        month = n;
         return Integer.toString(p)+ " " + getMonthFromInt(n) + " " + Integer.toString(newYear);
     }
 }
