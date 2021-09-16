@@ -52,6 +52,6 @@ public class Easter {
 
         day = p;
         month = n;
-        return Integer.toString(p)+ " " + getMonthFromInt(n) + " " + Integer.toString(newYear);
+        return getMonthFromInt(n)+ " " + Integer.toString(p) + ", " + Integer.toString(newYear);
     }
 }
