@@ -13,7 +13,7 @@ public class HangmanFrame extends JFrame {
 
     public HangmanFrame(int wordSize, GuessButtonListener guessButtonListener) {
 
-        setSize(400,300);
+        setSize(450,400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Hangman");
 
@@ -39,6 +39,9 @@ public class HangmanFrame extends JFrame {
         String strBldr = "";
         for (Character incorrectChar : incorrectCharacters) {
             strBldr += incorrectChar + ", ";
+        }
+        if (incorrectCharacters.size() > 0) {
+            strBldr = strBldr.substring(0, strBldr.length()-2);
         }
         gameFields.updateLettersGuessed(strBldr);
     }
