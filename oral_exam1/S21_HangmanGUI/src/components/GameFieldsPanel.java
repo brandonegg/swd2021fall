@@ -104,8 +104,8 @@ public class GameFieldsPanel extends JPanel {
     }
 
     public void clearInputField() {
-        inputResponseMessage.setText("");
-        inputResponseMessage.repaint();
+        wordGuessField.setText("");
+        wordGuessField.repaint();
     }
 
     public String getInputField() {

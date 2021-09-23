@@ -61,7 +61,8 @@ public class HangmanGame {
 
     public boolean makeGuess(String word) {
         String cleanedWord = word.toLowerCase().strip();
-        System.out.println(word);
+        gameWindow.sendAlert("");
+
         if (cleanedWord.length() == 1) {
             Character letter = cleanedWord.charAt(0);
             if (guessedLetters.contains(letter)) {
