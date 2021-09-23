@@ -1,8 +1,11 @@
+import components.HangmanFrame;
+
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class HangmanGame {
     //Strings all stored in lower case for consistency
-    private HangmanWindow gameWindow;
+    private HangmanFrame gameWindow;
     private String word;
     private ArrayList<String> guessedWords;
     private ArrayList<Character> incorrectGuessedLetters;
@@ -12,7 +15,7 @@ public class HangmanGame {
 
         guessedWords = new ArrayList<>();
         incorrectGuessedLetters = new ArrayList<>();
-        gameWindow = new HangmanWindow();
+        gameWindow = new HangmanFrame();
     }
 
     public void changeWord(String word) {
@@ -31,5 +34,14 @@ public class HangmanGame {
             return true;
         }
         return false;
+    }
+
+    public boolean startGame() {
+        //Returns true if player wins
+        gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gameWindow.setSize(400,200);
+        gameWindow.setVisible(true);
+
+        return true;
     }
 }
