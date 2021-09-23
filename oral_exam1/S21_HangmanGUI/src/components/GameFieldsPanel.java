@@ -109,7 +109,6 @@ public class GameFieldsPanel extends JPanel {
     }
 
     public String getInputField() {
-        System.out.println(wordGuessField.getText());
         return wordGuessField.getText();
     }
 }

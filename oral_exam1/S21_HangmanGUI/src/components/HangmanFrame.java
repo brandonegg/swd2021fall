@@ -10,6 +10,7 @@ public class HangmanFrame extends JFrame {
 
     private StickfigureComponent stickFigure;
     private GameFieldsPanel gameFields;
+    private Graphics2D g2d;
 
     public HangmanFrame(int wordSize, GuessButtonListener guessButtonListener) {
 
@@ -31,8 +32,8 @@ public class HangmanFrame extends JFrame {
 
     }
 
-    public void drawNextPart() {
-        //Draws next part of stickman
+    public boolean drawNextPart() {
+        return stickFigure.drawNextPart(stickFigure.getGraphics());
     }
 
     public void updateIncorrectLetters(ArrayList<Character> incorrectCharacters) {
@@ -59,7 +60,6 @@ public class HangmanFrame extends JFrame {
     }
 
     public String getGuessText() {
-        System.out.println(gameFields.getInputField());
         return gameFields.getInputField().toLowerCase().strip();
     }
 

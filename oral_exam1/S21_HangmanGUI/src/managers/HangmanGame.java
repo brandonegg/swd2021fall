@@ -3,6 +3,7 @@ package managers;
 import components.HangmanFrame;
 
 import javax.swing.*;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 public class HangmanGame {
@@ -51,6 +52,7 @@ public class HangmanGame {
         } else {
             JOptionPane.showMessageDialog(gameWindow, "You lose!");
         }
+        gameWindow.dispatchEvent(new WindowEvent(gameWindow, WindowEvent.WINDOW_CLOSING));
     }
 
     public boolean makeGuess() {
@@ -85,6 +87,10 @@ public class HangmanGame {
                 guessedLetters.add(letter);
                 incorrectGuessedLetters.add(letter);
 
+                if (!gameWindow.drawNextPart()) {
+                    endGame(false);
+                }
+
                 gameWindow.updateIncorrectLetters(incorrectGuessedLetters);
                 gameWindow.refreshGameFields();
                 return false;
@@ -95,7 +101,12 @@ public class HangmanGame {
                 return true;
             } else {
                 guessedWords.add(cleanedWord);
+                System.out.println("'"+cleanedWord + "' is not the word!");
                 gameWindow.sendAlert("'"+cleanedWord + "' is not the word!");
+
+                if (!gameWindow.drawNextPart()) {
+                    endGame(false);
+                }
 
                 gameWindow.refreshGameFields();
 
