@@ -2,8 +2,17 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
+/**
+ * Easter test class
+ */
 public class TestEaster {
     private static HashMap<Integer, String> referenceDates = new HashMap<>();
+
+    /**
+     * Fills private member variable referenceDates with example date strings for several years
+     * to compare with Easter class results.
+     * These dates were obtained from: https://www.census.gov/srd/www/genhol/easter500.html
+     */
     public void createReferenceDates() {
         //SOURCE: https://www.census.gov/srd/www/genhol/easter500.html
         referenceDates.put(1900, "April 15, 1900");
@@ -33,7 +42,15 @@ public class TestEaster {
 
     Easter tester;
 
+    /**
+     * Initialize new Easter object for testing
+     * @param date  The date to be tested
+     */
     public void init(int date) { tester = new Easter(date); }
+
+    /**
+     * Generates reference dates and compares their results with Easter toString() results.
+     */
     @Test
     public void testDates() {
         createReferenceDates();
