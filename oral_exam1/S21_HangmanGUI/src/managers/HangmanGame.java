@@ -60,7 +60,7 @@ public class HangmanGame {
     }
 
     public boolean makeGuess(String word) {
-        String cleanedWord = word.toLowerCase().strip();
+        String cleanedWord = word.toLowerCase().trim();
         gameWindow.sendAlert("");
 
         if (cleanedWord.length() == 1) {

@@ -1,5 +1,3 @@
-package src;
-
 import managers.HangmanGame;
 
 import javax.swing.*;

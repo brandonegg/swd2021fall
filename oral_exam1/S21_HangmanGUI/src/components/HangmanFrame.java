@@ -60,7 +60,7 @@ public class HangmanFrame extends JFrame {
     }
 
     public String getGuessText() {
-        return gameFields.getInputField().toLowerCase().strip();
+        return gameFields.getInputField().toLowerCase().trim();
     }
 
 }
