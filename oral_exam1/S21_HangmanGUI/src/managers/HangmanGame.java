@@ -6,6 +6,9 @@ import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
+/**
+ * HangmanGame manager, creates a hangman game window to play.
+ */
 public class HangmanGame {
     //Strings all stored in lower case for consistency
     private GuessButtonListener guessButtonListener;
@@ -17,6 +20,11 @@ public class HangmanGame {
     private ArrayList<Character> guessedLetters;
     private ArrayList<Character> incorrectGuessedLetters;
 
+    /**
+     * Initializes defaults and creates the Hangman game Frame.
+     * @param word  Word to guess
+     * @see     HangmanFrame
+     */
     public HangmanGame(String word) {
         this.wordToGuess = word.toLowerCase();
 
@@ -37,6 +45,13 @@ public class HangmanGame {
 
     }
 
+    /**
+     * Takes a new character, finds its location(s) in the word to guess string
+     * and adds the letters to the progress string. Then the hangmanFrame is updated
+     * with the new progress string.
+     * @param newChar   New character to add
+     * @see   HangmanFrame
+     */
     public void updateProgressStr(Character newChar) {
         for (int i=0; i<wordToGuess.length(); i++) {
             if (wordToGuess.charAt(i) == newChar) {
@@ -46,6 +61,11 @@ public class HangmanGame {
         gameWindow.updateWordProgress(progressString);
     }
 
+    /**
+     * Ends the game, displays a pop up showing whether the player won or lost
+     * based on playerWon parameter.
+     * @param playerWon     True means end game on player wins condition, False means end game on player loses condition
+     */
     public void endGame(boolean playerWon) {
         if (playerWon) {
             JOptionPane.showMessageDialog(gameWindow, "You won!");
@@ -55,10 +75,23 @@ public class HangmanGame {
         gameWindow.dispatchEvent(new WindowEvent(gameWindow, WindowEvent.WINDOW_CLOSING));
     }
 
+    /**
+     * Make guess, called by guess button actionevent. Takes input field text
+     * from hangmanframe and checks if letter guessed is correct.
+     * @return  True represents successful guess (letter present), False represents letter not present
+     * @see     HangmanFrame
+     * @see     GuessButtonListener
+     */
     public boolean makeGuess() {
         return makeGuess(gameWindow.getGuessText());
     }
 
+    /**
+     * Takes a string and checks whether it is the word, or the letter is present in the word.
+     * Handles updating the stickfigure or word progress based on whether the guess was successful.
+     * @param word  Letter/word the user guessed
+     * @return  True represents successsful guess (letter present), False represents letter not present
+     */
     public boolean makeGuess(String word) {
         String cleanedWord = word.toLowerCase().trim();
         gameWindow.sendAlert("");
@@ -116,6 +149,11 @@ public class HangmanGame {
         }
 
     }
+
+    /**
+     * Checks if the progress string is complete, all letters guessed
+     * @return  True if all letters have been guessed, False if not.
+     */
     public boolean checkCompletion() {
         if (progressString.contains("_")) {
             return false;
@@ -124,6 +162,11 @@ public class HangmanGame {
         }
     }
 
+    /**
+     * Checks if word has been guessed already
+     * @param word  Word to check
+     * @return      True if word has already been guessed, False if word hasn't been guessed yet
+     */
     public boolean hasWordBeenGuessed(String word) {
         if (guessedWords.contains(word.toLowerCase())) {
             return true;
@@ -131,6 +174,9 @@ public class HangmanGame {
         return false;
     }
 
+    /**
+     * Starts the game, called on HangmanGame when ready to start game and launch window.
+     */
     public void start() {
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameWindow.setSize(400,250);
