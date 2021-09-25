@@ -25,6 +25,7 @@ public class GameFieldsPanel extends JPanel {
     private JLabel guessedLettersLabel;
     private JLabel lettersGuessed;
     private JLabel inputResponseMessage;
+    private JLabel remainingGuessesLabel;
     private JButton wordGuessButton;
     private JTextField wordGuessField;
 
@@ -74,6 +75,10 @@ public class GameFieldsPanel extends JPanel {
 
         userResponsePanel.add(textInputPanel);
         userResponsePanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+        remainingGuessesLabel = new JLabel("- guesses remaining!", SwingConstants.CENTER);
+        remainingGuessesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        userResponsePanel.add(remainingGuessesLabel);
 
         inputResponseMessage = new JLabel("", SwingConstants.CENTER);
         inputResponseMessage.setForeground(Color.RED);
@@ -132,6 +137,16 @@ public class GameFieldsPanel extends JPanel {
     public void updateLettersGuessed(String text) {
         lettersGuessed.setText(text);
         lettersGuessed.repaint();
+    }
+
+    /**
+     * Updates the text displayed above incorrect letters guessed to display
+     * "guessCount guesses remaining!"
+     * @param guessCount    Number of guesses remaining
+     */
+    public void updateLettersGuessed(int guessCount) {
+        remainingGuessesLabel.setText(Integer.toString(guessCount) + " guesses remaining!");
+        remainingGuessesLabel.repaint();
     }
 
     /**

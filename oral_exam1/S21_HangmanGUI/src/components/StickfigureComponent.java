@@ -70,4 +70,13 @@ public class StickfigureComponent extends JComponent {
         }
     }
 
+    /**
+     * Rets the size of the hangman body parts array, each remaining part
+     * represents a guess the user has left.
+     * @return  Number of guesses remaining
+     */
+    public int getRemainingGuesses() {
+        return bodyParts.size()-1;
+    }
+
 }

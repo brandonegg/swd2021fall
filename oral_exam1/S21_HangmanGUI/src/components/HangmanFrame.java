@@ -42,6 +42,7 @@ public class HangmanFrame extends JFrame {
         gameFields = new GameFieldsPanel(wordSize, guessButtonListener);
         add(gameFields);
 
+        gameFields.updateLettersGuessed(stickFigure.getRemainingGuesses());
         setVisible(true);
 
     }
@@ -52,6 +53,7 @@ public class HangmanFrame extends JFrame {
      * @see     StickfigureComponent
      */
     public boolean drawNextPart() {
+        gameFields.updateLettersGuessed(stickFigure.getRemainingGuesses());
         return stickFigure.drawNextPart(stickFigure.getGraphics());
     }
 
@@ -98,6 +100,15 @@ public class HangmanFrame extends JFrame {
      */
     public void updateWordProgress(String wordProgress) {
         gameFields.updateProgress(wordProgress);
+    }
+
+    /**
+     * Updates the gamefields remaining guess count JLabel
+     * @param guessCount    Number of guesses remaining
+     * @see   GameFieldsPanel
+     */
+    public void updateRemainingGuesses(int guessCount) {
+        gameFields.updateLettersGuessed(guessCount);
     }
 
     /**
