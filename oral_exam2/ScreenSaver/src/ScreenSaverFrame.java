@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ScreenSaverFrame extends JFrame implements KeyListener {
 
-    private Character[] quitAppKeys = {'q'};
+    private Character[] quitAppKeys = {'q', '\u001B'};
 
     private ScreenSaverComponent screenSaverComponent;
 
@@ -26,6 +26,8 @@ public class ScreenSaverFrame extends JFrame implements KeyListener {
     public void keyTyped(KeyEvent e) {
         char key = e.getKeyChar();
         List<Character> keyList = Arrays.asList(quitAppKeys);
+
+        System.out.println(key);
 
         if (keyList.contains(key)) {
             System.exit(0);
