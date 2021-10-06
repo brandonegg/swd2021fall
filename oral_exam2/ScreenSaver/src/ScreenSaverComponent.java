@@ -8,6 +8,13 @@ import java.util.Random;
 
 public class ScreenSaverComponent extends JComponent implements KeyListener {
 
+    private final int maxLines = 100;
+    private int lineCount;
+
+    public ScreenSaverComponent() {
+        lineCount = 0;
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
@@ -16,6 +23,11 @@ public class ScreenSaverComponent extends JComponent implements KeyListener {
     }
 
     public void drawRandomLine(Graphics2D g2) {
+        if (lineCount == maxLines) {
+            removeAll();
+            lineCount = 0;
+        }
+
         Random rand = new Random();
         BasicStroke selectedStroke = new BasicStroke(rand.nextInt(10)+1);
         Color selectedColor = new Color(rand.nextInt(255), rand.nextInt(255),rand.nextInt(255));
@@ -25,6 +37,7 @@ public class ScreenSaverComponent extends JComponent implements KeyListener {
         g2.setColor(selectedColor);
         g2.setStroke(selectedStroke);
         g2.draw(new Line2D.Float(startPoint, endPoint));
+        lineCount++;
     }
 
     @Override
