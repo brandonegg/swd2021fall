@@ -3,7 +3,7 @@ import java.awt.*;
 /**
  * Main class for running the ScreenSaver application,
  * runs an instance of ScreenSaverFrame in fullscreen
- * @see ScreenSaverFrame
+ * @see  ScreenSaverFrame
  */
 public class ScreenSaver {
 
