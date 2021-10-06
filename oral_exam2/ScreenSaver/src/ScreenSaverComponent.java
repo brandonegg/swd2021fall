@@ -8,33 +8,69 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-public class ScreenSaverComponent extends JComponent implements KeyListener {
+/**
+ * ScreenSaverComponent is a JComponent which handles painting the random lines displayed on the ScreenSaverFrame.
+ * @see JComponent
+ * @see ScreenSaverFrame
+ */
+public class ScreenSaverComponent extends JComponent {
 
+    /**
+     * Maximum number of lines drawn to the screen
+     */
     private final int maxLines = 100;
-    private final long refreshTimeSec =  1;
+    /**
+     * Time between new line draws (in milliseconds)
+     */
+    private final long refreshTimeMiliSec =  250;
+    /**
+     * List of lines Line2D objects to draw to screen
+     */
     private ArrayList<Line2D> linesToDraw;
+    /**
+     * List of Colors, indexed in order with linesToDraw
+     */
     private ArrayList<Color> lineColors;
+    /**
+     * List of BasicStroke, indexed in order with linesToDraw
+     */
     private ArrayList<BasicStroke> lineStrokes;
 
+    /**
+     * Constructs an empty list for storing lines to draw, and their associated line colors, and stroke size.
+     * These are used to store the random lines which are drawn after each refresh cycle.
+     * This constructor is called and added to the ScreenSaverFrame.
+     * @see ScreenSaverFrame
+     */
     public ScreenSaverComponent() {
         linesToDraw = new ArrayList<Line2D>();
         lineColors = new ArrayList<Color>();
         lineStrokes = new ArrayList<BasicStroke>();
     }
 
+    /**
+     * Overrides paintComponent in the JComponent class. Called by JFrame when setVisible is true.
+     * Method is also called whenever a repaint call is queued.
+     * @param g Passed graphics object from paint call.
+     */
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        drawRandomLine(g2);
+        drawRandomLines(g2);
         try {
-            TimeUnit.SECONDS.sleep(refreshTimeSec);
+            TimeUnit.MILLISECONDS.sleep(refreshTimeMiliSec);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         repaint();
     }
 
-    public void drawRandomLine(Graphics2D g2) {
+    /**
+     * Called by paintComponent, checks if max line limit has been reached, if so lines are reset. If limit
+     * hasn't been reached, a new line is added and then this line plus all previous lines are drawn to screen.
+     * @param g2    Graphics2D instance passed from paintComponent
+     */
+    public void drawRandomLines(Graphics2D g2) {
         if (linesToDraw.size() == maxLines) {
             linesToDraw.clear();
             lineColors.clear();
@@ -58,20 +94,5 @@ public class ScreenSaverComponent extends JComponent implements KeyListener {
             g2.setStroke(lineStrokes.get(i));
             g2.draw(linesToDraw.get(i));
         }
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        //unused
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        //unused
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        //unused
     }
 }
