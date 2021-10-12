@@ -1,4 +1,4 @@
-public class Bear extends Predator {
+public class Bear extends Animal {
     public Bear(int initialSize, float growthCoefficient, float deathCoefficent) {
         super(initialSize, growthCoefficient, deathCoefficent);
         setName("Bear");
