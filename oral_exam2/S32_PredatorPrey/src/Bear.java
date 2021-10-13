@@ -1,5 +1,5 @@
 public class Bear extends Animal {
-    public Bear(int initialSize, float growthCoefficient, float deathCoefficent) {
+    public Bear(double initialSize, double growthCoefficient, double deathCoefficent) {
         super(initialSize, growthCoefficient, deathCoefficent);
         setName("Bear");
     }

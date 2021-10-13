@@ -1,5 +1,5 @@
 public class Fox extends Animal {
-    public Fox(int initialSize, float growthCoefficient, float deathCoefficent) {
+    public Fox(double initialSize, double growthCoefficient, double deathCoefficent) {
         super(initialSize, growthCoefficient, deathCoefficent);
         setName("Fox");
     }

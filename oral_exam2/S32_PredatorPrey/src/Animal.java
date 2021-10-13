@@ -5,15 +5,15 @@ public class Animal {
     private ArrayList<Animal> predatorsList;
     private ArrayList<Animal> preyList;
 
-    private int populationSize;
-    private int upcomingPopChange;
-    private float growthCoefficient;
-    private float deathCoefficient;
+    private double populationSize;
+    private double upcomingPopChange;
+    private double growthCoefficient;
+    private double deathCoefficient;
 
     private String name;
 
-    public Animal(int initialSize, float growthCoefficient, float deathCoefficient) {
-        upcomingPopChange = 0;
+    public Animal(double initialSize, double growthCoefficient, double deathCoefficient) {
+        upcomingPopChange = 0.0;
         populationSize = initialSize;
         this.growthCoefficient = growthCoefficient;
         this.deathCoefficient = deathCoefficient;
@@ -28,13 +28,14 @@ public class Animal {
     And for every prey that your animal feeds upon,
     you should have an additive term composed of the product of the two animal populations and the corresponding coefficient
      */
-    public void computeChange() {
+    public void computeChange(double dt) {
         if (preyList.size() == 0 && predatorsList.size() == 0) {
             upcomingPopChange = 0;
         } else {
-            int changeAmount = 0;
+            double changeAmount = 0.0;
             if (preyList.size() == 0) {
                 //Animal is only a prey, add natural growth
+                System.out.println(name + " is only a prey");
                 changeAmount += getPopulationSize() * getGrowthCoefficient();
             } else {
                 for (Animal prey : preyList) {
@@ -44,18 +45,23 @@ public class Animal {
 
             if (predatorsList.size() == 0) {
                 //Animal is only a predator, subtract natural death
+                System.out.println(name + " is only a predator");
                 changeAmount -= getDeathCoefficient()*getPopulationSize();
             } else {
                 for (Animal predator : predatorsList) {
                     changeAmount -= getDeathCoefficient()*getPopulationSize()* predator.getPopulationSize();
                 }
             }
-            upcomingPopChange = changeAmount; //Queue next change;
+            upcomingPopChange = changeAmount*dt; //Queue next change;
+            System.out.println("upcoming pop change for " +name + ": " +upcomingPopChange);
         }
     }
 
     public void updatePopulation() {
         populationSize += upcomingPopChange;
+        if (populationSize <= 0) {
+            populationSize = 0;
+        }
         upcomingPopChange = 0;
 
         if (populationSize <= 0) {
@@ -102,11 +108,11 @@ public class Animal {
         populationSize += amount;
     }
 
-    public void setGrowthCoefficient(float growthC) {
+    public void setGrowthCoefficient(double growthC) {
         this.growthCoefficient = growthC;
     }
 
-    public void setDeathCoefficient(float deathC) {
+    public void setDeathCoefficient(double deathC) {
         this.deathCoefficient = deathC;
     }
 
@@ -114,15 +120,15 @@ public class Animal {
         return name;
     }
 
-    public float getGrowthCoefficient() {
+    public double getGrowthCoefficient() {
         return growthCoefficient;
     }
 
-    public float getDeathCoefficient() {
+    public double getDeathCoefficient() {
         return deathCoefficient;
     }
 
-    public int getPopulationSize() {
+    public double getPopulationSize() {
         return populationSize;
     }
 
