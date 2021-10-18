@@ -19,6 +19,18 @@ public class Game {
         this.sport = sport;
     }
 
+    public void addScore(Team team, int amount) {
+        if (isActive()) {
+            if (team.equals(homeTeam)) {
+                homeTeam.setScore(homeTeam.getScore()+amount);
+            } else if (team.equals(awayTeam)) {
+                awayTeam.setScore(awayTeam.getScore()+amount);
+            } else {
+                throw new IllegalArgumentException("Provided team is not playing in this game");
+            }
+        }
+    }
+
     public void setPeriodData(Period periodData) {
         this.periodData = periodData;
     }
@@ -41,5 +53,26 @@ public class Game {
 
     public void startGame() {
         this.active = true;
+        //TODO: reset score, other initial setup things
+    }
+
+    public Period getPeriod() {
+        return periodData;
+    }
+
+    public Team getHomeTeam() {
+        return homeTeam;
+    }
+
+    public Team getAwayTeam() {
+        return awayTeam;
+    }
+
+    public Sport getSport() {
+        return sport;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }
