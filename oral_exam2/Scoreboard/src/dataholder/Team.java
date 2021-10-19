@@ -6,7 +6,11 @@ public class Team {
 
     private int score;
     private String name;
-    private Sport sport;
+
+    public Team(String name) {
+        score = 0;
+        this.name = name;
+    }
 
     public void setScore(int score) {
         this.score = score;
@@ -14,10 +18,6 @@ public class Team {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setSport(Sport sport) {
-        this.sport = sport;
     }
 
     public int getScore() {
@@ -28,8 +28,8 @@ public class Team {
         return name;
     }
 
-    public Sport getSport() {
-        return sport;
+    public String toString() {
+        return name + " - " + score;
     }
 
 }

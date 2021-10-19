@@ -85,4 +85,8 @@ public class Game {
         return active;
     }
 
+    public String toString() {
+        return homeTeam.toString()+", "+awayTeam.toString()+"\n"
+                +"Current " +periodData.toString();
+    }
 }

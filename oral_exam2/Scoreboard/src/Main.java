@@ -1,7 +1,9 @@
+import dataholder.Team;
 import enums.Sport;
 import sports.Football;
 import sports.Game;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
 
 public class Main {
@@ -21,7 +23,20 @@ public class Main {
         }
         System.out.print("Enter choice: ");
         int sportIndex = in.nextInt();
-        Sport.values()[i-1].getGameClass();//TODO:
+        Sport selectedSport = Sport.values()[sportIndex-1];
+        System.out.println("");
 
+        System.out.print("Enter Home Team: ");
+        Team homeTeam = new Team(in.next());
+        System.out.print("Enter Away Team: ");
+        Team awayTeam = new Team(in.next());
+
+        Game currentGame = null;
+
+        switch(selectedSport) {
+            case FOOTBALL:
+                currentGame = new Football(homeTeam, awayTeam);
+        }
+        System.out.println(currentGame.toString());
     }
 }
