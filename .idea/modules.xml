@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch22/BasicShapes/BasicShapes.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch22/BasicShapes/BasicShapes.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch29/BooksDatabaseExamples/BooksDatabaseExamples.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch29/BooksDatabaseExamples/BooksDatabaseExamples.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch22/CanvasShapes/CanvasShapes.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch22/CanvasShapes/CanvasShapes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/quizzes/ClientServerQuiz/ClientServerQuiz.iml" filepath="$PROJECT_DIR$/quizzes/ClientServerQuiz/ClientServerQuiz.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch13/ColorChooser/ColorChooser.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch13/ColorChooser/ColorChooser.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch13/CoverViewer/CoverViewer.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch13/CoverViewer/CoverViewer.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch13/CoverViewerCustomListView/CoverViewerCustomListView.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch13/CoverViewerCustomListView/CoverViewerCustomListView.iml" />
@@ -1013,7 +1014,6 @@
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_10th_edition/appK/figK_10/figK_103.iml" filepath="$PROJECT_DIR$/textbook_examples_10th_edition/appK/figK_10/figK_103.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch36/ExamplesShowingErrors/CircularDependency/src/module1/module1.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch36/ExamplesShowingErrors/CircularDependency/src/module1/module1.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch36/ExamplesShowingErrors/CircularDependency/src/module2/module2.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch36/ExamplesShowingErrors/CircularDependency/src/module2/module2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/quizzes/quizzes.iml" filepath="$PROJECT_DIR$/quizzes/quizzes.iml" />
       <module fileurl="file://$PROJECT_DIR$/scratch/scratch.iml" filepath="$PROJECT_DIR$/scratch/scratch.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples10thEdition/supplemental/supplemental.iml" filepath="$PROJECT_DIR$/textbook_examples10thEdition/supplemental/supplemental.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_10th_edition/textbook_examples_10th_edition.iml" filepath="$PROJECT_DIR$/textbook_examples_10th_edition/textbook_examples_10th_edition.iml" />

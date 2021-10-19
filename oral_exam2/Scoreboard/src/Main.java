@@ -1,11 +1,27 @@
+import enums.Sport;
 import sports.Football;
+import sports.Game;
+
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
+        startCommandLine();
+    }
 
-        Football.SCORING_METHOD scoreType = Football.SCORING_METHOD.TOUCHDOWN;
+    public static void startCommandLine() {
+        Scanner in  = new Scanner(System.in);
 
-        System.out.println(scoreType.getValue());
+        System.out.println("Select the type of game:");
+        int i = 1;
+        for (Sport sport : Sport.values()) {
+            System.out.println(i+": " + sport.toString());
+            i++;
+        }
+        System.out.print("Enter choice: ");
+        int sportIndex = in.nextInt();
+        Sport.values()[i-1].getGameClass();//TODO:
+
     }
 }
