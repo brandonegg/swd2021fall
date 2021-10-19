@@ -1,8 +1,12 @@
 package enums;
 
 import dataholder.Period;
+import dataholder.Team;
 import sports.Football;
 import sports.Game;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 public enum Sport {
     FOOTBALL("quarter", 4, Football.class),
@@ -24,7 +28,19 @@ public enum Sport {
         return new Period(periodName, periodLength);
     }
 
-    public Class getGameClass() {
-        return gameClass;
+    public Game createGameInstance(Team homeTeam, Team awayTeam) {
+        try {
+            Constructor classConstructor = gameClass.getConstructor(new Class[] {Team.class, Team.class});
+            return (Game)classConstructor.newInstance(homeTeam, awayTeam);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

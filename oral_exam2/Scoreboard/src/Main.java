@@ -25,18 +25,19 @@ public class Main {
         int sportIndex = in.nextInt();
         Sport selectedSport = Sport.values()[sportIndex-1];
         System.out.println("");
-
+        in.nextLine();//clear registry
         System.out.print("Enter Home Team: ");
-        Team homeTeam = new Team(in.next());
+        Team homeTeam = new Team(in.nextLine());
         System.out.print("Enter Away Team: ");
-        Team awayTeam = new Team(in.next());
+        Team awayTeam = new Team(in.nextLine());
 
-        Game currentGame = null;
+        Game currentGame = selectedSport.createGameInstance(homeTeam, awayTeam);
 
+        /*
         switch(selectedSport) {
             case FOOTBALL:
                 currentGame = new Football(homeTeam, awayTeam);
-        }
+        }*/
         System.out.println(currentGame.toString());
     }
 }
