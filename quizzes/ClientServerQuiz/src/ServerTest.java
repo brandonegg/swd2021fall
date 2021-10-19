@@ -1,20 +1,13 @@
-// Fig. 28.6: ClientTest.java
-// Class that tests the Client.
+// Fig. 28.4: ServerTest.java
+// Test the Server application.
 
 import javax.swing.*;
 
-public class ClientTest {
+public class ServerTest {
     public static void main(String[] args) {
-        Client application; // declare client application
-
-        // if no command line args
-        if (args.length == 0)
-            application = new Client("128.255.17.153"); // connect to localhost
-        else
-            application = new Client(args[0]); // use args to connect
-
+        Server application = new Server(); // create server
         application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        application.runClient(); // run client application
+        application.runServer(); // run server application
     }
 }
 
