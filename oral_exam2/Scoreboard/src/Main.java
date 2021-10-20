@@ -5,12 +5,24 @@ import sports.Game;
 
 import java.util.Scanner;
 
+/**
+ * Main class for Scoreboard, contains the command line interface methods.
+ */
 public class Main {
 
+    /**
+     * Main method called when application is compiled at run.
+     * @param args  Input args
+     */
     public static void main(String[] args) {
         startCommandLine();
     }
 
+    /**
+     * Starts and handles score keeping through the command line. Utilizes user input to produce
+     * a game object which is manipulated until the game is no longer active.
+     * @see Game
+     */
     public static void startCommandLine() {
         Scanner in  = new Scanner(System.in);
 
