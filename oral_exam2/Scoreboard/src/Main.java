@@ -1,10 +1,8 @@
 import dataholder.Team;
 import enums.ScoringMethods;
 import enums.Sport;
-import sports.Football;
 import sports.Game;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
 
 public class Main {
@@ -32,8 +30,10 @@ public class Main {
         System.out.print("Enter Away Team: ");
         Team awayTeam = new Team(in.nextLine());
 
+        System.out.println("");
         Game currentGame = selectedSport.createGameInstance(homeTeam, awayTeam);
         System.out.println(currentGame.toString());
+        System.out.println("");
 
         while (currentGame.isActive()) {
             System.out.println("Menu: ");
@@ -51,7 +51,7 @@ public class Main {
             int choice = in.nextInt();
 
             if (choice > i) {
-                System.out.println("Invalid repsponse, please pick a number between 1 and "+ i);
+                System.out.println("Invalid response, please pick a number between 1 and "+ i);
             } else if (choice == i) {
                 //End period
                 currentGame.nextPeriod();
@@ -68,7 +68,6 @@ public class Main {
         }
 
         System.out.println("Game is over.");
-        currentGame.toString();
 
     }
 }

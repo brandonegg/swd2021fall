@@ -2,22 +2,20 @@ package enums;
 
 import dataholder.Period;
 import dataholder.Team;
-import sports.Football;
-import sports.Game;
+import sports.*;
 
-import java.io.StreamCorruptedException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 public enum Sport {
     FOOTBALL("quarter", 4, 15, Football.class, new ScoringMethods[]
             {ScoringMethods.TOUCHDOWN, ScoringMethods.EXTRA_POINT, ScoringMethods.FIELD_GOAL, ScoringMethods.TWO_POINT_CONVERSION, ScoringMethods.SAFETY}),
-    BASKETBALL("quarter", 4, 12, Football.class, new ScoringMethods[]
-            {}),
-    SOCCER("half", 2, 45, Football.class, new ScoringMethods[]
-            {}),
-    HOCKEY("quarter",3, 20, Football.class, new ScoringMethods[]
-            {});
+    BASKETBALL("quarter", 4, 12, Basketball.class, new ScoringMethods[]
+            {ScoringMethods.ONE_POINTER, ScoringMethods.TWO_POINTER, ScoringMethods.THREE_POINTER}),
+    SOCCER("half", 2, 45, Soccer.class, new ScoringMethods[]
+            {ScoringMethods.GOAL}),
+    HOCKEY("regulation",3, 20, Hockey.class, new ScoringMethods[]
+            {ScoringMethods.GOAL});
 
     private final String periodName;
     private final int periodLength;

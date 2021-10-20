@@ -108,12 +108,13 @@ public class Game {
         String outputStr = homeTeam.toString()+", "+awayTeam.toString()+"\n"
                 +"Current " +periodData.toString();
         if (!isActive()) {
-            String winner = getWinner().getName();
+            outputStr += "\nWinner: ";
+            Team winner = getWinner();
             if (winner == null) {
-                winner = "tie!";
+                outputStr += "tie!";
+            } else {
+                outputStr += winner.getName();
             }
-
-            outputStr += "\nWinner: " + winner;
         }
 
         return outputStr;
