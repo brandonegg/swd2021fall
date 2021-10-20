@@ -2,7 +2,11 @@ package sports;
 
 import dataholder.Period;
 import dataholder.Team;
+import enums.ScoringMethods;
 import enums.Sport;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Game {
 
@@ -10,6 +14,7 @@ public class Game {
     private Team homeTeam;
     private Team awayTeam;
     private Sport sport;
+    private List<ScoringMethods> scoringMethods;
     private boolean active;
 
     public Game(Team home, Team away, Sport sport) {
@@ -17,6 +22,7 @@ public class Game {
         this.homeTeam = home;
         this.awayTeam = away;
         this.sport = sport;
+        scoringMethods = Arrays.asList(sport.getScoringMethods());
 
         periodData = sport.newPeriod();
     }
@@ -31,6 +37,10 @@ public class Game {
                 throw new IllegalArgumentException("Provided team is not playing in this game");
             }
         }
+    }
+
+    public void addScore(Team team, ScoringMethods score) {
+        addScore(team, score.getValue());
     }
 
     public void nextPeriod() {
@@ -85,8 +95,31 @@ public class Game {
         return active;
     }
 
+    public Team getWinner() {
+        if (homeTeam.getScore() > awayTeam.getScore()) {
+            return homeTeam;
+        } else if (awayTeam.getScore() > homeTeam.getScore()) {
+            return awayTeam;
+        }
+        return null;
+    }
+
     public String toString() {
-        return homeTeam.toString()+", "+awayTeam.toString()+"\n"
+        String outputStr = homeTeam.toString()+", "+awayTeam.toString()+"\n"
                 +"Current " +periodData.toString();
+        if (!isActive()) {
+            String winner = getWinner().getName();
+            if (winner == null) {
+                winner = "tie!";
+            }
+
+            outputStr += "\nWinner: " + winner;
+        }
+
+        return outputStr;
+    }
+
+    public List<ScoringMethods> getScoringMethods() {
+        return scoringMethods;
     }
 }

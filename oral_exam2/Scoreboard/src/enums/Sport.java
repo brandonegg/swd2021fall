@@ -5,27 +5,36 @@ import dataholder.Team;
 import sports.Football;
 import sports.Game;
 
+import java.io.StreamCorruptedException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 public enum Sport {
-    FOOTBALL("quarter", 4, Football.class),
-    BASKETBALL("quarter", 4, Football.class),
-    SOCCER("half", 2, Football.class),
-    HOCKEY("quarter",4, Football.class);
+    FOOTBALL("quarter", 4, 15, Football.class, new ScoringMethods[]
+            {ScoringMethods.TOUCHDOWN, ScoringMethods.EXTRA_POINT, ScoringMethods.FIELD_GOAL, ScoringMethods.TWO_POINT_CONVERSION, ScoringMethods.SAFETY}),
+    BASKETBALL("quarter", 4, 12, Football.class, new ScoringMethods[]
+            {}),
+    SOCCER("half", 2, 45, Football.class, new ScoringMethods[]
+            {}),
+    HOCKEY("quarter",3, 20, Football.class, new ScoringMethods[]
+            {});
 
     private final String periodName;
     private final int periodLength;
+    private final int periodAmount;
     private final Class gameClass;
+    private ScoringMethods[] scoringMethods;
 
-    Sport(String periodName, int periodLength, Class gameClass) {
+    Sport(String periodName, int periodAmount, int periodLength, Class gameClass, ScoringMethods[] scoringMethods) {
         this.periodName = periodName;
+        this.periodAmount = periodAmount;
         this.periodLength = periodLength;
         this.gameClass = gameClass;
+        this.scoringMethods = scoringMethods;
     }
 
     public Period newPeriod() {
-        return new Period(periodName, periodLength);
+        return new Period(periodName, periodAmount, periodLength);
     }
 
     public Game createGameInstance(Team homeTeam, Team awayTeam) {
@@ -42,5 +51,9 @@ public enum Sport {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public ScoringMethods[] getScoringMethods() {
+        return scoringMethods;
     }
 }
