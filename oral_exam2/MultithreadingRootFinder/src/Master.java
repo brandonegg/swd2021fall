@@ -39,8 +39,10 @@ public class Master {
         }
 
         switch (selection) {
-            case 1 -> smallTest();
-            case 2 -> largeTest();
+            case 1: smallTest();
+                    break;
+            case 2: largeTest();
+                    break;
         }
         System.exit(1);
     }
