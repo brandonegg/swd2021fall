@@ -1,4 +1,4 @@
-//Source: https://www.math.ksu.edu/~bennett/jomacg/c.html
+package data;
 /**
   Complex implements a complex number and defines complex
   arithmetic and mathematical functions
@@ -29,7 +29,7 @@ public class Complex extends Object {
     /**
      Imaginary part of this Complex number
      (the y-coordinate in rectangular coordinates).
-     @return Im[z] where z is this Complex number.
+     @return Im[z] where z is this data.Complex number.
      */
     public double imag() {
         return y;
