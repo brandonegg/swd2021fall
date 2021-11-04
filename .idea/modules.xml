@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch29/AddressBook/AddressBook.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch29/AddressBook/AddressBook.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch22/BallAnimationTimer/BallAnimationTimer.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch22/BallAnimationTimer/BallAnimationTimer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/quizzes/BasicCalculator/BasicCalculator.iml" filepath="$PROJECT_DIR$/quizzes/BasicCalculator/BasicCalculator.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch22/BasicShapes/BasicShapes.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch22/BasicShapes/BasicShapes.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch29/BooksDatabaseExamples/BooksDatabaseExamples.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch29/BooksDatabaseExamples/BooksDatabaseExamples.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch22/CanvasShapes/CanvasShapes.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch22/CanvasShapes/CanvasShapes.iml" />
@@ -124,6 +125,7 @@
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch25/TipCalculator/TipCalculator.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch25/TipCalculator/TipCalculator.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch17/TipCalculator/TipCalculator1.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch17/TipCalculator/TipCalculator1.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_10th_edition/ch25/TipCalculator/TipCalculator2.iml" filepath="$PROJECT_DIR$/textbook_examples_10th_edition/ch25/TipCalculator/TipCalculator2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scratch/TipCalculatorMVC/TipCalculatorMVC.iml" filepath="$PROJECT_DIR$/scratch/TipCalculatorMVC/TipCalculatorMVC.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch22/TransitionAnimations/TransitionAnimations.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch22/TransitionAnimations/TransitionAnimations.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch22/VideoPlayer/VideoPlayer.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch22/VideoPlayer/VideoPlayer.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_10th_edition/ch25/Welcome/Welcome.iml" filepath="$PROJECT_DIR$/textbook_examples_10th_edition/ch25/Welcome/Welcome.iml" />
@@ -523,7 +525,6 @@
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_10th_edition/appK/figK_10/figK_101.iml" filepath="$PROJECT_DIR$/textbook_examples_10th_edition/appK/figK_10/figK_101.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch36/ExamplesShowingErrors/CircularDependency/src/module1/module1.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch36/ExamplesShowingErrors/CircularDependency/src/module1/module1.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_11th_edition/ch36/ExamplesShowingErrors/CircularDependency/src/module2/module2.iml" filepath="$PROJECT_DIR$/textbook_examples_11th_edition/ch36/ExamplesShowingErrors/CircularDependency/src/module2/module2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/quizzes/quizzes.iml" filepath="$PROJECT_DIR$/quizzes/quizzes.iml" />
       <module fileurl="file://$PROJECT_DIR$/textbook_examples_10th_edition/textbook_examples_10th_edition.iml" filepath="$PROJECT_DIR$/textbook_examples_10th_edition/textbook_examples_10th_edition.iml" />
     </modules>
   </component>
