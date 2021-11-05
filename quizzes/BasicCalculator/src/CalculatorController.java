@@ -5,18 +5,20 @@ import javafx.scene.control.Label;
 
 public class CalculatorController {
 
+    @FXML
+    private Label displayField;
+
     CalculatorModel calculatorModel;
 
     public CalculatorController() {
         calculatorModel = new CalculatorModel();
+        //updateDisplayField();
     }
 
     @FXML
-    private Label displayField;
-
-    @FXML
     void submitClearPress(ActionEvent event) {
-
+        calculatorModel.clear();
+        updateDisplayField();
     }
 
     @FXML
@@ -25,14 +27,24 @@ public class CalculatorController {
         updateDisplayField();
     }
 
+    @FXML
+    void submitOperatorPress(ActionEvent event) {
+        if (calculatorModel.isPreviousStored()) {
+            calculatorModel.performComputation();
+        } else {
+            calculatorModel.setOperator(((Button) event.getSource()).getText());
+            calculatorModel.pushBackCurrentNumber();
+        }
+        updateDisplayField();
+    }
+
+    @FXML
+    void submitEqualsPress() {
+        calculatorModel.performComputation();
+        updateDisplayField();
+    }
+
     public void updateDisplayField() {
-        displayField.setText(Integer.toString(calculatorModel.getCurrentNumber()));
+        displayField.setText(calculatorModel.getCurrentNumber());
     }
 }
-
-/*
-submitNumberPress()
-submitOperatorPress()
-
-displayField
- */

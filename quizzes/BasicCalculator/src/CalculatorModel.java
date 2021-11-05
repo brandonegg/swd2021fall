@@ -1,26 +1,28 @@
 public class CalculatorModel {
 
-    private int previousNumber;
-    private int currentNumber;
+    private Integer previousNumber;
+    private String currentNumber;
     private char operator;
 
     public CalculatorModel() {
-        previousNumber = 0;
-        currentNumber = 0;
+        previousNumber = null;
+        currentNumber = "";
         operator = '0';
     }
 
     public void performComputation() {
+        Integer currentNumberInteger = Integer.valueOf(currentNumber);
         switch(operator){
-            case '+':   currentNumber = previousNumber+currentNumber;
+            case '+':   currentNumber = Integer.toString(previousNumber+currentNumberInteger);
                         break;
-            case '-':   currentNumber = previousNumber-currentNumber;
+            case '-':   currentNumber = Integer.toString(previousNumber-currentNumberInteger);
                         break;
-            case '*':   currentNumber = previousNumber*currentNumber;
+            case '*':   currentNumber = Integer.toString(previousNumber*currentNumberInteger);
                         break;
-            case '/':   currentNumber = previousNumber/currentNumber;
+            case '/':   currentNumber = Integer.toString(previousNumber/currentNumberInteger);
             default:    break;
         }
+        previousNumber = null;
         operator = '0';
     }
 
@@ -29,21 +31,24 @@ public class CalculatorModel {
     }
 
     public void addCurrentInt(String number) {
-        currentNumber = Integer.parseInt(Integer.toString(currentNumber)+number);
+        currentNumber = currentNumber+number;
     }
 
     public void clear() {
-        previousNumber = 0;
-        currentNumber = 0;
+        previousNumber = null;
+        currentNumber = "";
     }
 
     public void pushBackCurrentNumber() {
-        previousNumber = currentNumber;
-        currentNumber = 0;
+        previousNumber = Integer.valueOf(currentNumber);
+        currentNumber = "";
     }
 
-    public int getCurrentNumber() {
+    public String getCurrentNumber() {
         return currentNumber;
     }
 
+    public boolean isPreviousStored() {
+        return !(previousNumber==null);
+    }
 }
