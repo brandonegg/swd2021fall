@@ -3,8 +3,10 @@ public class CalculatorModel {
     private Integer previousNumber;
     private String currentNumber;
     private char operator;
+    private boolean clearInputNextNumber;
 
     public CalculatorModel() {
+        clearInputNextNumber = false;
         previousNumber = null;
         currentNumber = "";
         operator = '0';
@@ -22,8 +24,7 @@ public class CalculatorModel {
             case '/':   currentNumber = Integer.toString(previousNumber/currentNumberInteger);
             default:    break;
         }
-        previousNumber = null;
-        operator = '0';
+        pushBackCurrentNumber();
     }
 
     public void setOperator(String letter) {
@@ -31,7 +32,17 @@ public class CalculatorModel {
     }
 
     public void addCurrentInt(String number) {
-        currentNumber = currentNumber+number;
+        if (clearInputNextNumber) {
+            try {
+                previousNumber = Integer.valueOf(currentNumber);
+            } catch (Exception e) {
+                previousNumber = null;
+            }
+            currentNumber = number;
+            clearInputNextNumber = false;
+        } else {
+            currentNumber = currentNumber + number;
+        }
     }
 
     public void clear() {
@@ -40,8 +51,8 @@ public class CalculatorModel {
     }
 
     public void pushBackCurrentNumber() {
-        previousNumber = Integer.valueOf(currentNumber);
-        currentNumber = "";
+        previousNumber = null;
+        clearInputNextNumber = true;
     }
 
     public String getCurrentNumber() {

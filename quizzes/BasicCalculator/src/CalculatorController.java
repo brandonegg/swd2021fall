@@ -40,8 +40,10 @@ public class CalculatorController {
 
     @FXML
     void submitEqualsPress() {
-        calculatorModel.performComputation();
-        updateDisplayField();
+        if (calculatorModel.isPreviousStored()) {
+            calculatorModel.performComputation();
+            updateDisplayField();
+        }
     }
 
     public void updateDisplayField() {
