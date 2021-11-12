@@ -24,6 +24,7 @@ public class MorseLibrary {
         addCode('O', "---");
         addCode('P', ".--.");
         addCode('Q', "--.-");
+        addCode('R', ".-.");
         addCode('S', "...");
         addCode('T', "-");
         addCode('U', "..-");

@@ -9,13 +9,17 @@ public class CodeConverter {
     public String convertEnglishSentence(String englishSentence) {
         StringBuilder strBldr = new StringBuilder();
 
-        for (String englishWord : englishSentence.split(" ")) {
-            for (Character englishLetter : englishWord.toCharArray()) {
-                strBldr.append(codeLibrary.convertEnglishCharacter(englishLetter) + " ");
+        if (englishSentence.length()>0) {
+            for (String englishWord : englishSentence.split(" ")) {
+                for (Character englishLetter : englishWord.toCharArray()) {
+                    strBldr.append(codeLibrary.convertEnglishCharacter(englishLetter) + " ");
+                }
+                strBldr.append("  ");
             }
-            strBldr.append("  ");
         }
-        strBldr.delete(strBldr.length()-3, strBldr.length());
+        if (strBldr.length() > 3) {
+            strBldr.delete(strBldr.length() - 3, strBldr.length());
+        }
 
         return strBldr.toString();
     }
@@ -23,14 +27,17 @@ public class CodeConverter {
     public String convertMorseSentence(String morseSentence) {
         StringBuilder strBldr = new StringBuilder();
 
-        for (String morseWord : morseSentence.split("   ")) {
-            for (String morseCharacter : morseWord.split(" ")) {
-                strBldr.append(codeLibrary.converMorseCharacter(morseCharacter));
+        if (morseSentence.length() > 0) {
+            for (String morseWord : morseSentence.split("   ")) {
+                for (String morseCharacter : morseWord.split(" ")) {
+                    strBldr.append(codeLibrary.converMorseCharacter(morseCharacter));
+                }
+                strBldr.append(" ");
             }
-            strBldr.append(" ");
         }
-        strBldr.delete(strBldr.length()-1, strBldr.length());
-
+        if (strBldr.length()>1) {
+            strBldr.delete(strBldr.length() - 1, strBldr.length());
+        }
         return strBldr.toString();
     }
 
