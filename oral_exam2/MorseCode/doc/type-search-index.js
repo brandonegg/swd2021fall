@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"<Unnamed>","l":"CodeConverter"},{"p":"<Unnamed>","l":"MorseCode"},{"p":"<Unnamed>","l":"MorseLibrary"},{"p":"<Unnamed>","l":"testCodeConverter"}];updateSearchResults();

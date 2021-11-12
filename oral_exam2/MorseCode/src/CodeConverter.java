@@ -1,11 +1,25 @@
 public class CodeConverter {
 
+    /**
+     * Reference to Morse code library object
+     */
     MorseLibrary codeLibrary;
 
+    /**
+     * Takes a reference morse code library object and initializes
+     * it to a local variable.
+     * @param libraryObj
+     */
     public CodeConverter(MorseLibrary libraryObj) {
         codeLibrary = libraryObj;
     }
 
+    /**
+     * Takes an English letters sentence and converts the sentence into Morse code.
+     * @param englishSentence English sentence to convert
+     * @return  Morse code sentence equivalent
+     * @see MorseLibrary
+     */
     public String convertEnglishSentence(String englishSentence) {
         StringBuilder strBldr = new StringBuilder();
 
@@ -24,6 +38,12 @@ public class CodeConverter {
         return strBldr.toString();
     }
 
+    /**
+     * Take Morse code sentence and convert into English sentence.
+     * @param morseSentence Morse code input string
+     * @return  English sentence equivalent
+     * @see MorseLibrary
+     */
     public String convertMorseSentence(String morseSentence) {
         StringBuilder strBldr = new StringBuilder();
 

@@ -1,15 +1,32 @@
 import java.util.Scanner;
 
+/**
+ * Main class for running interactive terminal
+ * english to morse code and morse code to english translator.
+ */
 public class MorseCode {
 
+    /**
+     * Stores the CodeConverter object used to convert English sentences to Morse Code sentences
+     * and Morse code sentences to English.
+     * @see CodeConverter
+     */
     public static CodeConverter codeConverter;
 
+    /**
+     * Initializes a CodeConverter object and starts the terminal user interface for translating.
+     * @param args
+     */
     public static void main(String[] args) {
         codeConverter = new CodeConverter(new MorseLibrary());
         startTerminalInterface();
     }
 
-
+    /**
+     * Launches terminal interface for user input to translate
+     * English sentences to morse code and morse code to English sentences
+     * @see CodeConverter
+     */
     public static void startTerminalInterface() {
         Scanner input = new Scanner(System.in);
         boolean active = true;
