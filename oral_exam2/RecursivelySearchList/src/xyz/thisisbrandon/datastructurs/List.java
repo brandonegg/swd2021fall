@@ -2,53 +2,99 @@
 // ListNode and List class declarations.
 package xyz.thisisbrandon.datastructurs;
 
-// class to represent one node in a list
+/**
+ * Class representing a single node in linkedlist
+ * @param <T>   Value type.
+ * @see     List
+ */
 class ListNode<T> {
     // package access members; List can access these directly
+    /**
+     * Data stored in this node.
+     */
     T data; // data for this node
-    ListNode<T> nextNode; // reference to the next node in the list
+    /**
+     * Reference to next node in list, null represents current node
+     * being the end of list.
+     */
+    ListNode<T> nextNode;
 
-    // constructor creates a ListNode that refers to object
+    /**
+     * Constructor for node with no next node specified. Value stored
+     * is required.
+     * @param object    Value to be stored in node
+     */
     ListNode(T object) {
         this(object, null);
     }
 
-    // constructor creates ListNode that refers to the specified
-    // object and to the next ListNode
+    /**
+     * Constructor for node.
+     * @param object    Value to be stored in node
+     * @param node      Next node in list
+     */
     ListNode(T object, ListNode<T> node) {
         data = object;
         nextNode = node;
     }
 
-    // return reference to data in node
+    /**
+     * Returns data stored in node
+     * @return  data member variable
+     */
     T getData() {
         return data;
     }
 
-    // return reference to next node in list
+    /**
+     * Returns the next node after this in list
+     * @return  nextNode member variable
+     */
     ListNode<T> getNext() {
         return nextNode;
     }
 } // end class ListNode<T>
 
-// class List definition
+/**
+ * List object is a simple LinkedList
+ * @param <T>   type of value stored in list
+ * @see ListNode
+ */
 public class List<T> {
+
+    /**
+     * Reference to first node in list.
+     */
     private ListNode<T> firstNode;
+    /**
+     * Reference to last node in list.
+     */
     private ListNode<T> lastNode;
+    /**
+     * Name of list.
+     */
     private String name; // string like "list" used in printing
 
-    // constructor creates empty List with "list" as the name
+    /**
+     * Default constructor, creates an empty list with name "list"
+     */
     public List() {
         this("list");
     }
 
-    // constructor creates an empty List with a name
+    /**
+     * Constructor, creates an empty list with specified name.
+     * @param listName  the name of the list
+     */
     public List(String listName) {
         name = listName;
         firstNode = lastNode = null;
     }
 
-    // insert item at front of List
+    /**
+     * Appends new object to front of list.
+     * @param insertItem    object to append
+     */
     public void insertAtFront(T insertItem) {
         if (isEmpty()) // firstNode and lastNode refer to same object
             firstNode = lastNode = new ListNode<T>(insertItem);
@@ -56,7 +102,10 @@ public class List<T> {
             firstNode = new ListNode<T>(insertItem, firstNode);
     }
 
-    // insert item at end of List
+    /**
+     * Appends new object to end of list
+     * @param insertItem    object to append
+     */
     public void insertAtBack(T insertItem) {
         if (isEmpty()) // firstNode and lastNode refer to same object
             firstNode = lastNode = new ListNode<T>(insertItem);
@@ -64,7 +113,38 @@ public class List<T> {
             lastNode = lastNode.nextNode = new ListNode<T>(insertItem);
     }
 
-    // remove first node from List
+    /**
+     * Searches for a node that contains the specified value starting at start node.
+     * If no node contains this value search returns null.
+     * @param value Value to search for
+     * @return      Reference to actual value within List or null if not found.
+     */
+    public T search(T value) {
+        return search(value, firstNode);
+    }
+
+    /**
+     * Searches for a node that contains the specified value starting at a specified
+     * node inside the linked list.
+     * @param value         Value to search for
+     * @param startPoint    Node at which search starts
+     * @return              Reference to actual value within list or null if not found.
+     */
+    public T search(T value, ListNode<T> startPoint) {
+        if (startPoint == null) {
+            return null;
+        } else if (startPoint.getData().equals(value)) {
+            return startPoint.getData();
+        } else {
+            return search(value, startPoint.getNext());
+        }
+    }
+
+    /**
+     * Remove first node from list
+     * @return  value stored within first node
+     * @throws EmptyListException   Thrown when trying to remove an element from an empty list.
+     */
     public T removeFromFront() throws EmptyListException {
         if (isEmpty()) // throw exception if List is empty
             throw new EmptyListException(name);
@@ -80,7 +160,11 @@ public class List<T> {
         return removedItem; // return removed node data
     } // end method removeFromFront
 
-    // remove last node from List
+    /**
+     * Removes last node in list
+     * @return  value stored within last node
+     * @throws EmptyListException   Thrown when trying to remove an element from an empty list.
+     */
     public T removeFromBack() throws EmptyListException {
         if (isEmpty()) // throw exception if List is empty
             throw new EmptyListException(name);
@@ -105,12 +189,17 @@ public class List<T> {
         return removedItem; // return removed node data
     }
 
-    // determine whether list is empty
+    /**
+     * Checks if list is empty
+     * @return  true if empty, false is not empty
+     */
     public boolean isEmpty() {
         return firstNode == null; // return true if list is empty
     }
 
-    // output list contents
+    /**
+     * Method for printing list contents to console
+     */
     public void print() {
         if (isEmpty()) {
             System.out.printf("Empty %s%n", name);
@@ -128,7 +217,7 @@ public class List<T> {
 
         System.out.println();
     }
-} // end class List<T>
+}
 
 /**************************************************************************
  * (C) Copyright 1992-2014 by Deitel & Associates, Inc. and               *

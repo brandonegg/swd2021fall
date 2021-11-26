@@ -2,17 +2,29 @@
 // Class EmptyListException declaration.
 package xyz.thisisbrandon.datastructurs;
 
+/**
+ * Class for creating a throwable exception for empty List objects.
+ * @see List
+ */
 public class EmptyListException extends RuntimeException {
-    // constructor
+
+    /**
+     * Default constructor for when no message is displayed
+     */
     public EmptyListException() {
         this("List"); // call other EmptyListException constructor
     }
 
-    // constructor
+    /**
+     * Constructor for exception class, allows specifying a more detailed
+     * exception message to superclass RuntimeException.
+     * @param name  name of the list throwing the exception.
+     * @see         RuntimeException
+     */
     public EmptyListException(String name) {
         super(name + " is empty"); // call superclass constructor
     }
-} // end class EmptyListException
+}
 
 /**************************************************************************
  * (C) Copyright 1992-2014 by Deitel & Associates, Inc. and               *
