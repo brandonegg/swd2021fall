@@ -1,6 +1,6 @@
 package xyz.brandon.blackjack.server;
 
-import java.io.IOException;
+import xyz.brandon.blackjack.server.network.GameServer;
 
 public class BlackJackGame {
 
@@ -8,21 +8,24 @@ public class BlackJackGame {
     private int port = 12345;
 
     private GameServer blackJackServer;
+    private Deck deck;
     private int playerCount;
 
     public BlackJackGame(int port, int maxPlayers) {
         this.port = port;
         this.maxPlayers = maxPlayers;
-        start();
+        this.deck = new Deck();
     }
 
     public void start() {
         blackJackServer = new GameServer(port, maxPlayers);
-        try {
-            blackJackServer.run();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        blackJackServer.start();
+    }
+
+    public void play() {
+        System.out.println(deck.toString());
+        deck.shuffle();
+        System.out.println(deck.toString());
     }
 
 }

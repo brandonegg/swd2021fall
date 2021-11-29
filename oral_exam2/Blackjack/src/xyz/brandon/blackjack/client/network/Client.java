@@ -1,4 +1,4 @@
-package xyz.brandon.blackjack.client;// Java implementation for a client
+package xyz.brandon.blackjack.client.network;// Java implementation for a client
 // Save file as Client.java
 
 import java.io.*;
@@ -58,4 +58,5 @@ public class Client {
             e.printStackTrace();
         }
     }
+
 }

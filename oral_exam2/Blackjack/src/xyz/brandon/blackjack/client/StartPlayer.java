@@ -1,5 +1,7 @@
 package xyz.brandon.blackjack.client;
 
+import xyz.brandon.blackjack.client.network.Client;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;

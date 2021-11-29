@@ -1,31 +1,47 @@
-package xyz.brandon.blackjack.server;
+package xyz.brandon.blackjack.server.network;
+
+import xyz.brandon.blackjack.server.network.ClientHandler;
 
 import java.io.*;
-import java.text.*;
 import java.util.*;
 import java.net.*;
 
 // Server class
-public class GameServer {
+public class GameServer extends Thread {
 
     private int port;
     private int maxPlayers;
+    private ArrayList<ClientHandler> connectedClients;
 
     public GameServer(int port, int maxPlayers) {
         this.port = port;
         this.maxPlayers = maxPlayers;
+        connectedClients = new ArrayList<>();
     }
 
-    public void run() throws IOException
+    @Override
+    public void run()
     {
         // server is listening on port 5056
-        ServerSocket ss = new ServerSocket(port);
+        ServerSocket ss = null;
+        try {
+            ss = new ServerSocket(port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // running infinite loop for getting
         // client request
         while (true)
         {
             Socket s = null;
+
+            StringJoiner strBldr = new StringJoiner(" ");
+            strBldr.add("Clients connected:");
+            for (ClientHandler client : connectedClients) {
+                strBldr.add(client.getUsername());
+            }
+            System.out.println(strBldr.toString());
 
             try
             {
@@ -45,10 +61,14 @@ public class GameServer {
 
                 // Invoking the start() method
                 t.start();
-
+                connectedClients.add((ClientHandler) t);
             }
             catch (Exception e){
-                s.close();
+                try {
+                    s.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 e.printStackTrace();
             }
         }
