@@ -1,7 +1,5 @@
 package xyz.brandon.blackjack.server.network;
 
-import xyz.brandon.blackjack.server.network.ClientHandler;
-
 import java.io.*;
 import java.util.*;
 import java.net.*;

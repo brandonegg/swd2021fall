@@ -11,7 +11,7 @@ public class StartPlayer {
     public static void main(String[] args) {
         Client player = null;
         try {
-            player = new Client(InetAddress.getByName("localhost"));
+            player = new Client(InetAddress.getByName("localhost"), 10051);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

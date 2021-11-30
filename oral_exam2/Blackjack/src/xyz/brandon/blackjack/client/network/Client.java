@@ -9,9 +9,11 @@ import java.util.Scanner;
 public class Client {
 
     private InetAddress address;
+    private int port;
 
-    public Client(InetAddress address) {
+    public Client(InetAddress address, int port) {
         this.address = address;
+        this.port = port;
     }
 
     public void connect() throws IOException
@@ -21,7 +23,7 @@ public class Client {
             Scanner scn = new Scanner(System.in);
 
             // establish the connection with server port 5056
-            Socket s = new Socket(address, 5056);
+            Socket s = new Socket(address, port);
 
             // obtaining input and out streams
             DataInputStream dis = new DataInputStream(s.getInputStream());

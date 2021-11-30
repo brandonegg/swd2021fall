@@ -10,6 +10,9 @@ import java.io.IOException;
 
 public class ClientApplication extends Application {
 
+    private Scene connectScene;
+    private Scene readyScene;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -17,12 +20,12 @@ public class ClientApplication extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("ClientInterface.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("ConnectInterface.fxml"));
 
-            Scene scene = new Scene(root);
+            Scene connectScene = new Scene(root);
 
             primaryStage.setTitle("Black Jack");
-            primaryStage.setScene(scene);
+            primaryStage.setScene(connectScene);
             primaryStage.show();
         } catch (IOException e) {
             System.out.println(e.getMessage());
