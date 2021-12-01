@@ -23,7 +23,20 @@ public class ReadyController {
 
     @FXML
     void sendReady(ActionEvent event) {
+        String formattedUsername = usernameField.getText().replaceAll("\\s", ""); //Can't have spaces in username
 
+        if (formattedUsername.length() == 0) {
+            displayAlert("Unable to ready up, you must enter a valid username first!");
+        }
+    }
+
+    public void displayAlert(String message) {
+        messageLabel.setVisible(true);
+        messageLabel.setText(message);
+    }
+
+    public void hideAlert() {
+        messageLabel.setVisible(false);
     }
 
 }

@@ -76,4 +76,8 @@ public class ConnectController {
         messageLabel.setText(message);
     }
 
+    public void hideAlert() {
+        messageLabel.setVisible(false);
+    }
+
 }
