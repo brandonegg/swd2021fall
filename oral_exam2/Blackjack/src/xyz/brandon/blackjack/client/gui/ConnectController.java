@@ -49,13 +49,12 @@ public class ConnectController {
             return;
         }
 
-        if (port == -1 || address == null) {
+        if (port == -1 || address == null || addressField.getText().replaceAll("\\s", "").equals("")) {
             displayAlert("Unable to convert address and port");
         } else {
             Client client = new Client(address,port);
             try {
                 client.connect();
-
             } catch (IOException e) {
                 displayAlert("Unable to connect to server!");
             }

@@ -34,18 +34,17 @@ public class Client {
             System.out.println("A connection has already been established!");
             return;
         }
-        try
-        {
-            scn = new Scanner(System.in);
 
-            // establish the connection with server port 5056
-            s = new Socket(address, port);
+        scn = new Scanner(System.in);
 
-            // obtaining input and out streams
-            dis = new DataInputStream(s.getInputStream());
-            dos = new DataOutputStream(s.getOutputStream());
+        // establish the connection with server port 5056
+        s = new Socket(address, port);
 
-            connected = true;
+        // obtaining input and out streams
+        dis = new DataInputStream(s.getInputStream());
+        dos = new DataOutputStream(s.getOutputStream());
+
+        connected = true;
 
             // the following loop performs the exchange of
             // information between client and client handler
@@ -75,9 +74,7 @@ public class Client {
             scn.close();
             dis.close();
             dos.close();*/
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+
     }
 
     public void disconnect() {
