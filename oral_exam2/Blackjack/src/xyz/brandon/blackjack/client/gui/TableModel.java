@@ -3,54 +3,93 @@ package xyz.brandon.blackjack.client.gui;
 import xyz.brandon.blackjack.Card;
 import xyz.brandon.blackjack.Suit;
 import xyz.brandon.blackjack.client.Player;
+import xyz.brandon.blackjack.client.network.Client;
 import xyz.brandon.blackjack.utils.ArgsParser;
 
 public class TableModel {
 
-    private Player player;
+    private Player clientPlayer;
     private TableController tableController;
     private boolean gameActive;
+    private Client client;
 
-    public TableModel(TableController tableController, Player player) {
+    public TableModel(TableController tableController, Player clientPlayer, Client client) {
         this.tableController = tableController;
-        this.player = player;
+        this.clientPlayer = clientPlayer;
+        this.client = client;
     }
 
     public void waitForNewTurn() {
         System.out.println("Waiting for turn output...");
-        ArgsParser args = player.getClient().listenForIdentifier("turn");
+        ArgsParser args = client.listenForIdentifier("turn");
         System.out.println("Caught identifier: " +args.getIdentifier());
 
         if (args.has("username")) {
             String username = args.get("username");
             if (!tableController.getCurrentTurn().equals(username)) {
                 tableController.clearDeck();
-                tableController.setActivePlayer(username, username.equals(player.getUsername()));
+                if (username.equals(clientPlayer.getUsername())) {
+                    System.out.println("New turn is for client");
+                    tableController.setActivePlayer(username, true);
+                } else {
+                    System.out.println("New turn is for " + username);
+                    tableController.setActivePlayer(username, false);
+                    recieveOtherPlayerAction(new Player(username));
+                }
             }
         }
 
     }
 
-    public void recieveCard() {
-        ArgsParser args = player.getClient().listenForIdentifier("card");
+    public ServerActivePlayerListener recieveOtherPlayerAction(Player otherPlayer) {
+        ServerActivePlayerListener serverActivePlayerListener = new ServerActivePlayerListener(otherPlayer, client, this);
+        serverActivePlayerListener.start();
+        return serverActivePlayerListener;
+    }
+
+    public boolean recieveCard(ArgsParser args, Player receiver) {
         System.out.println("Received card: " + args.get("name"));
         if (args.has("suit") && args.has("number")) {
             Card card = new Card(Suit.valueOf(args.get("suit").toUpperCase()), Integer.parseInt(args.get("number")));
             tableController.addCard(card);
-            player.recieveCard(card);
-            int handValue = player.getHandValue();
+            receiver.recieveCard(card);
+            int handValue = receiver.getHandValue();
             tableController.updatePlayerScoreLabel(Integer.toString(handValue));
 
             if (handValue > 21) {
-                playerBusts();
+                playerBusts(receiver);
+                return false;
             }
+        } else if (args.has("action")) {//Player stands
+            if (args.get("action").equals("stand")) {
+                return false; //end recieving cards once player stands;
+            }
+        }
+
+
+        return true;
+    }
+    public boolean recieveCard(Player receiver) {
+        ArgsParser args = client.listenForIdentifier("card");
+        return recieveCard(args, receiver);
+    }
+
+    public Player getClientPlayer() {
+        return clientPlayer;
+    }
+
+    public void playerBusts(Player player) {
+        tableController.displayAlert("BUST!");
+        if (player.getUsername().equals(clientPlayer.getUsername())) {
+            tableController.hideControls();
+            tableController.updateYourScoreLabel("BUST!");
+            tableController.updatePlayerScoreLabel("none");
+            client.sendString("action", "username:"+player.getUsername()+"_type:bust", false);
+            waitForNewTurn();
         }
     }
 
-    public void playerBusts() {
-        tableController.hideControls();
-        tableController.displayAlert("BUST!");
-        //TODO: communicate with server, action=username:username_type:bust, then call waitForNewTurn, once server recieves bust notice it will send a new turn identifier
+    public TableController getTableController() {
+        return tableController;
     }
-
 }

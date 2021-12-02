@@ -55,6 +55,7 @@ class ClientHandler extends Thread
 
                 // receive the answer from client
                 received = dis.readUTF();
+                System.out.println("Received message " + received);
                 ArgsParser args = new ArgsParser(received);
                 String identifier = args.getIdentifier();
 
@@ -79,14 +80,16 @@ class ClientHandler extends Thread
                     }
                 } else if (identifier.equals("action")) {
                     if (args.has("username") && args.has("type") && gameServer.getBlackJackGame().isGameActive()) {
-                        if (args.get("type").equals("hit")) {
-                            gameServer.getBlackJackGame().queueAction(args.get("username"), "hit");
-                            System.out.println("Sending " + args.get("username") + " hit to blackjack game.");
+                        if (args.get("type").equals("hit") || args.get("type").equals("bust") || args.get("type").equals("stand")) {
+                            gameServer.getBlackJackGame().queueAction(args.get("username"), args.get("type"));
+                        } else {
+                            System.out.println("Received unrecognized action: " + args.get("type"));
                         }
                     }
                 }
-                System.out.println("Doing transmission success");
+
                 if (transmissionSuccess) {
+                    System.out.println("Doing transmission success");
                     dos.writeUTF(identifier);
                     dos.flush();
                 }
@@ -116,6 +119,7 @@ class ClientHandler extends Thread
         try {
             dos.writeUTF(message);
             dos.flush();
+            System.out.println("Sending message " + message);
         } catch (Exception e) {
             e.printStackTrace();
         }

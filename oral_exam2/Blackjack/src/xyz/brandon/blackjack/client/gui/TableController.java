@@ -1,5 +1,6 @@
 package xyz.brandon.blackjack.client.gui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,10 +13,12 @@ import javafx.stage.Stage;
 import xyz.brandon.blackjack.Card;
 import xyz.brandon.blackjack.client.Hand;
 import xyz.brandon.blackjack.client.Player;
+import xyz.brandon.blackjack.client.network.Client;
 import xyz.brandon.blackjack.utils.ArgsParser;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class TableController {
 
@@ -47,17 +50,19 @@ public class TableController {
     private String currentTurn;
     private TableModel tableModel;
     private Player player;
+    private Client client;
 
     public TableController() {
         tableHand = new Hand();
         player =null;
     }
-    public void setupTable(Player player){
+    public void setupTable(Player player, Client client){
         System.out.println("Setting up table from server turn");
         this.player = player;
         currentTurn = "";
-        tableModel = new TableModel(this, player);
+        tableModel = new TableModel(this, player, client);
         tableModel.waitForNewTurn();
+        this.client = client;
     }
 
 
@@ -65,8 +70,8 @@ public class TableController {
     @FXML
     void playerHits(ActionEvent event) {
         if (player != null) {
-            player.getClient().sendString("action", "username:"+player.getUsername()+"_type:hit", false);
-            tableModel.recieveCard();
+            client.sendString("action", "username:"+player.getUsername()+"_type:hit", false);
+            tableModel.recieveCard(tableModel.getClientPlayer());
         }
     }
 
@@ -90,6 +95,7 @@ public class TableController {
         } else {
             activePlayerLabel.setText("CURRENT PLAYER: " + username);
             hideControls();
+            System.out.println("Updating active player to " + username);
         }
         currentTurn = username;
     }
@@ -104,17 +110,22 @@ public class TableController {
     }
 
     public void updatePlayerScoreLabel(String score) {
-        System.out.println("updating score"+score);
+        System.out.println("updating score "+score);
         playersScoreLabel.setText("Player's Total: " + score);
     }
 
     public void clearDeck() {
         int i =0;
+        ArrayList<Node> nodesToRemove = new ArrayList<Node>();
         for (Node node : cardPanel.getChildren()) {
             if (i>0) {
-                cardPanel.getChildren().remove(node);
+                nodesToRemove.add(node);
             }
             i++;
+        }
+
+        for (Node node : nodesToRemove) {
+            cardPanel.getChildren().remove(node);
         }
     }
 
@@ -132,6 +143,10 @@ public class TableController {
         standButton.setVisible(false);
         notYourTurnLabel.setVisible(true);
         yourScoreLabel.setVisible(true);
+    }
+
+    public void recieveServerCard(ArgsParser args, Player player) {
+        Platform.runLater(()-> tableModel.recieveCard(args, player));
     }
 
 }

@@ -1,5 +1,6 @@
 package xyz.brandon.blackjack.client.gui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,16 +40,13 @@ public class ReadyController {
         if (formattedUsername.length() == 0) {
             displayAlert("Unable to ready up, you must enter a valid username first!");
         } else {
-            Player player = new Player(client);
-            if (player.readyUp(formattedUsername)) {
-                hideAlert();
-                readyButton.setVisible(false);
-                displayAlert("You are now ready, waiting for other players...");
-                if (client.listenFor("game", "status:start")) {
-                    switchToTableScene(player);
-                }
-            } else {
-                displayAlert("Unable to process ready request with server, try again.");
+            Player player = new Player(formattedUsername);
+            client.sendString("ready", "username:"+formattedUsername, true);
+            hideAlert();
+            readyButton.setVisible(false);
+            displayAlert("You are now ready, waiting for other players...");
+            if (client.listenFor("game", "status:start")) {
+                switchToTableScene(player, client);
             }
         }
     }
@@ -62,7 +60,7 @@ public class ReadyController {
         messageLabel.setVisible(false);
     }
 
-    public void switchToTableScene(Player player) {
+    public void switchToTableScene(Player player, Client client) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("TableInterface.fxml"));
             Stage stage = (Stage) messageLabel.getScene().getWindow();
@@ -72,7 +70,7 @@ public class ReadyController {
             stage.setScene(scene);
 
             TableController controller = loader.<TableController>getController();
-            controller.setupTable(player);
+            controller.setupTable(player, client);
         }catch (IOException io){
             io.printStackTrace();
         }
