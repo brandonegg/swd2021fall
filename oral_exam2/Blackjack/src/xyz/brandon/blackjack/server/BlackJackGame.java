@@ -1,31 +1,70 @@
 package xyz.brandon.blackjack.server;
 
+import xyz.brandon.blackjack.Card;
 import xyz.brandon.blackjack.server.network.GameServer;
 
-public class BlackJackGame {
+import java.util.HashMap;
 
-    private int maxPlayers = 7;
-    private int port = 12345;
+public class BlackJackGame extends Thread {
 
     private GameServer blackJackServer;
     private Deck deck;
     private int playerCount;
+    private boolean gameActive;
+    private HashMap<String, String> actionQueue;
 
-    public BlackJackGame(int port, int maxPlayers) {
-        this.port = port;
-        this.maxPlayers = maxPlayers;
+    public BlackJackGame(GameServer blackJackServer) {
         this.deck = new Deck();
+        deck.buildDeck();
+        this.blackJackServer = blackJackServer;
     }
 
-    public void start() {
-        blackJackServer = new GameServer(port, maxPlayers);
-        blackJackServer.start();
-    }
+    @Override
+    public void run() {
+        System.out.println("Starting game"); //testing
+        blackJackServer.sendClientsMsg("game=status:start");
 
-    public void play() {
-        System.out.println(deck.toString());
+        gameActive = true;
+        actionQueue = new HashMap<>();
+
+        System.out.println("Shuffling deck...");
         deck.shuffle();
-        System.out.println(deck.toString());
+
+        String dealingTo = null;
+        while (gameActive) {
+
+            for (String username : blackJackServer.getPlayers()) {
+                dealingTo = username;
+                System.out.println("Dealing to " + username);
+                blackJackServer.sendClientsMsg("turn=username:" + username);
+            }
+
+            boolean userStands = false;
+            while(!userStands) { //eventually end loop when player stands
+                HashMap<String, String> cloneQueue = new HashMap<>(actionQueue);
+                for (String user : cloneQueue.keySet()) {
+                    String action = cloneQueue.get(user);
+
+                    if (action.equals("hit")) {
+                        Card dealtCard = deck.drawCard();
+                        System.out.println("Dealing a " +dealtCard.toString());
+                        blackJackServer.sendUserClientMsg(user, "card=name:" + dealtCard.toString() + "_value:" + dealtCard.getValue());
+                        actionQueue.remove(user);
+                    } else if (action.equals("stand")) {
+                        //TODO: stand
+                    } else {
+                        System.out.println("Unrecognized action: " + action);
+                    }
+                }
+            }
+        }
     }
 
+    public boolean isGameActive() {
+        return gameActive;
+    }
+
+    public void queueAction(String username, String action) {
+        actionQueue.put(username, action);
+    }
 }

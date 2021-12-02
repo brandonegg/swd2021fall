@@ -1,6 +1,7 @@
 package xyz.brandon.blackjack.client;
 
 import xyz.brandon.blackjack.client.network.Client;
+import xyz.brandon.blackjack.utils.ArgsParser;
 
 public class Player {
 
@@ -14,9 +15,22 @@ public class Player {
         this.hand = null;
     }
 
+    public String getCurrentTurn() {
+        ArgsParser args = client.listenForIdentifier("turn");
+        return args.get("username");
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
     public boolean readyUp(String username) {
         if (hasServer()) {
-            if (client.sendString("ready", "username:"+username)) {
+            if (client.sendString("ready", "username:"+username, true)) {
                 this.username = username;
             }
         }

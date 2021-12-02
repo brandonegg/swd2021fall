@@ -1,5 +1,8 @@
 package xyz.brandon.blackjack.server.network;
 
+import xyz.brandon.blackjack.client.network.Client;
+import xyz.brandon.blackjack.server.BlackJackGame;
+
 import java.io.*;
 import java.util.*;
 import java.net.*;
@@ -10,11 +13,18 @@ public class GameServer extends Thread {
     private int port;
     private int maxPlayers;
     private ArrayList<ClientHandler> connectedClients;
+    private HashMap<String, ClientHandler> playerClientMapper;
+    private BlackJackGame blackJackGame;
+    private boolean gameActive;
 
     public GameServer(int port, int maxPlayers) {
         this.port = port;
         this.maxPlayers = maxPlayers;
+        this.playerClientMapper = new HashMap<>();
+        blackJackGame = new BlackJackGame(this);
         connectedClients = new ArrayList<>();
+        blackJackGame.start();
+        gameActive = false;
     }
 
     @Override
@@ -55,7 +65,7 @@ public class GameServer extends Thread {
                 System.out.println("Assigning new thread for this client");
 
                 // create a new thread object
-                Thread t = new ClientHandler(s, dis, dos);
+                Thread t = new ClientHandler(this, s, dis, dos);
 
                 // Invoking the start() method
                 t.start();
@@ -69,6 +79,59 @@ public class GameServer extends Thread {
                 }
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void addReadyPlayer(String username, ClientHandler client) {
+        playerClientMapper.put(username, client);
+    }
+
+    public void removeClientHandler(ClientHandler client) {
+        for (String key : playerClientMapper.keySet()) {
+            if (playerClientMapper.get(key).equals(client)) {
+                playerClientMapper.remove(key);
+            }
+        }
+        connectedClients.remove(client);
+    }
+
+    public void startGame() {
+        blackJackGame = new BlackJackGame(this);
+        blackJackGame.start();
+        gameActive = true;
+    }
+
+    public boolean isGameActive() {
+        return gameActive;
+    }
+
+    public boolean gameCanStart() {
+        return (connectedClients.size() == playerClientMapper.keySet().size());
+    }
+
+    public BlackJackGame getBlackJackGame() {
+        return blackJackGame;
+    }
+
+    public Set<String> getPlayers() {
+        return playerClientMapper.keySet();
+    }
+
+    public ClientHandler getClientFromUsername(String username) {
+        if (playerClientMapper.containsKey(username)) {
+            return playerClientMapper.get(username);
+        }
+        return null;
+    }
+
+    public void sendUserClientMsg(String username, String msg) {
+        playerClientMapper.get(username).sendMessage(msg);
+    }
+
+    public void sendClientsMsg(String msg) {
+        for (String username : playerClientMapper.keySet()) {
+            System.out.println("Test:"+msg);
+            playerClientMapper.get(username).sendMessage(msg);
         }
     }
 }

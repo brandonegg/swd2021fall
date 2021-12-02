@@ -1,6 +1,8 @@
 package xyz.brandon.blackjack.client.network;// Java implementation for a client
 // Save file as Client.java
 
+import xyz.brandon.blackjack.utils.ArgsParser;
+
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
@@ -94,14 +96,18 @@ public class Client {
         return connected;
     }
 
-    public boolean sendString(String identifier, String args) {
+    public boolean sendString(String identifier, String args, boolean awaitResponse) {
         boolean success = false;
         try {
             dos.writeUTF(identifier + "=" + args); //send string to server
             dos.flush();
-            String recieved = dis.readUTF();
-            System.out.println(recieved.toString());
-            if (recieved.equals(identifier)) {
+            if (awaitResponse) {
+                String recieved = dis.readUTF();
+                System.out.println(recieved.toString());
+                if (recieved.equals(identifier)) {
+                    success = true;
+                }
+            } else {
                 success = true;
             }
         } catch (Exception e) {
@@ -110,8 +116,49 @@ public class Client {
         return success;
     }
 
-    public void listenFor(String identifier, String args) {
-        //Wait until it gets a specific response from server (like username=turn:activate)
+    public ArgsParser listenForIdentifier(String identifier) {
+        boolean heardArgs = false;
+        ArgsParser result = null;
+
+        try {
+            while (!heardArgs) {
+                String serverMsg = dis.readUTF();
+                System.out.println("recieved msg " + serverMsg);
+
+                ArgsParser receivedArgs = new ArgsParser(serverMsg);
+                if (receivedArgs.getIdentifier().equals(identifier)) {
+                    result = receivedArgs;
+                    heardArgs = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public boolean listenFor(String identifier, String args) {
+        boolean heardArgs = false;
+        ArgsParser listeningArgs = new ArgsParser(identifier,args);
+
+        try {
+            while (!heardArgs) {
+                String serverMsg = dis.readUTF();
+                System.out.println("recieved msg " + serverMsg);
+
+                ArgsParser receivedArgs = new ArgsParser(serverMsg);
+                if (receivedArgs.getIdentifier().equals(listeningArgs.getIdentifier())) {
+                    for (String arg : listeningArgs.getArgs()) {
+                        if (listeningArgs.get(arg).equals(receivedArgs.get(arg))) {
+                            heardArgs = true;
+                        }
+                    }
+                }
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return heardArgs;
     }
 
     @Override

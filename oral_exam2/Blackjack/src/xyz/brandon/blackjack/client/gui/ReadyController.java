@@ -41,7 +41,12 @@ public class ReadyController {
         } else {
             Player player = new Player(client);
             if (player.readyUp(formattedUsername)) {
-                switchToTableScene(player);
+                hideAlert();
+                readyButton.setVisible(false);
+                displayAlert("You are now ready, waiting for other players...");
+                if (client.listenFor("game", "status:start")) {
+                    switchToTableScene(player);
+                }
             } else {
                 displayAlert("Unable to process ready request with server, try again.");
             }
@@ -65,6 +70,9 @@ public class ReadyController {
 
             Scene scene = new Scene(loader.load());
             stage.setScene(scene);
+
+            TableController controller = loader.<TableController>getController();
+            controller.setupTable(player);
         }catch (IOException io){
             io.printStackTrace();
         }

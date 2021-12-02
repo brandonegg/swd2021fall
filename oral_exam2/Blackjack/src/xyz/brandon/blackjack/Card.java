@@ -34,7 +34,7 @@ public class Card {
 
     @Override
     public String toString() {
-        return "Card: " + getCardName() + " of " + suit.getName();
+        return getCardName() + " of " + suit.getName();
     }
 
 }

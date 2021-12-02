@@ -1,31 +1,39 @@
 package xyz.brandon.blackjack.server.network;
 
+import xyz.brandon.blackjack.server.BlackJackGame;
+import xyz.brandon.blackjack.utils.ArgsParser;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 class ClientHandler extends Thread
 {
-    DateFormat fordate = new SimpleDateFormat("yyyy/MM/dd");
-    DateFormat fortime = new SimpleDateFormat("hh:mm:ss");
+    private GameServer gameServer;
     private String username;
-    final DataInputStream dis;
-    final DataOutputStream dos;
-    final Socket s;
+    private final DataInputStream dis;
+    private final DataOutputStream dos;
+    private final Socket s;
+    private ArrayList<String> dataOutQueue;
+    private boolean inGame;
 
 
     // Constructor
-    public ClientHandler(Socket s, DataInputStream dis, DataOutputStream dos)
+    public ClientHandler(GameServer gameServer, Socket s, DataInputStream dis, DataOutputStream dos)
     {
+        this.gameServer = gameServer;
         this.s = s;
         this.dis = dis;
         this.dos = dos;
+        this.inGame = false;
         username = null;
+        dataOutQueue = new ArrayList<>();
     }
 
     @Override
@@ -38,33 +46,46 @@ class ClientHandler extends Thread
         while (connectionActive)
         {
             try {
+                System.out.println("Size of data out " +dataOutQueue.size());
+                if (dataOutQueue.size() != 0) {
+                    System.out.println("Sending message " +dataOutQueue.get(0));
+                    dos.writeUTF(dataOutQueue.remove(0));
+                    dos.flush();
+                }
 
                 // receive the answer from client
                 received = dis.readUTF();
-                String identifier = received.split("=")[0];
-                String[] tempargs = received.split("=")[1].split("_");
-                HashMap<String, String> args = new HashMap<String, String>();
+                ArgsParser args = new ArgsParser(received);
+                String identifier = args.getIdentifier();
+
                 boolean transmissionSuccess = false;
 
-                for (String arg : tempargs) {
-                    if (args.containsKey(arg)) {
-                        System.out.println(arg + " sent has conflicting values.");
-                    } else {
-                        args.put(arg.split(":")[0], arg.split(":")[1]);
-                    }
-                }
-
                 if (identifier.equals("connection")) {
-                    if (args.containsKey("status") && args.get("status").equals("end")) {
-                        connectionActive = false;
+                    if (args.has("status")) {
+                        if (args.get("status").equals("end")) {
+                            connectionActive = false;
+                        } else if (args.get("status").equals("ingame")) {
+                            inGame = true;
+                        }
                     }
                 } else if (identifier.equals("ready")) {
-                    if (args.containsKey("username")) {
+                    if (args.has("username")) {
                         System.out.println(args.get("username") + " is ready!"); //TODO: ready player on server side
                         transmissionSuccess = true;
+                        gameServer.addReadyPlayer(args.get("username"), this);
+                        if (gameServer.gameCanStart()) {
+                            gameServer.startGame();
+                        }
+                    }
+                } else if (identifier.equals("action")) {
+                    if (args.has("username") && args.has("type") && gameServer.getBlackJackGame().isGameActive()) {
+                        if (args.get("type").equals("hit")) {
+                            gameServer.getBlackJackGame().queueAction(args.get("username"), "hit");
+                            System.out.println("Sending " + args.get("username") + " hit to blackjack game.");
+                        }
                     }
                 }
-
+                System.out.println("Doing transmission success");
                 if (transmissionSuccess) {
                     dos.writeUTF(identifier);
                     dos.flush();
@@ -75,6 +96,7 @@ class ClientHandler extends Thread
                 connectionActive = false;
             }
         }
+        System.out.println("Doing stff success");
 
         try
         {
@@ -85,9 +107,25 @@ class ClientHandler extends Thread
         }catch(IOException e){
             e.printStackTrace();
         }
+        System.out.println("Ended client handler loop transmission success");
+    }
+
+    public void sendMessage(String message) {
+        //System.out.println("last Test:"+message);
+        //dataOutQueue.add(message);
+        try {
+            dos.writeUTF(message);
+            dos.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public String getUsername() {
         return username;
+    }
+
+    public boolean isInGame() {
+        return inGame;
     }
 }
