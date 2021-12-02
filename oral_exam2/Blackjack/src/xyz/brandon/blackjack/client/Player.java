@@ -1,5 +1,6 @@
 package xyz.brandon.blackjack.client;
 
+import xyz.brandon.blackjack.Card;
 import xyz.brandon.blackjack.client.network.Client;
 import xyz.brandon.blackjack.utils.ArgsParser;
 
@@ -12,7 +13,7 @@ public class Player {
     public Player(Client client) {
         this.client = client;
         this.username = null;
-        this.hand = null;
+        this.hand = new Hand();
     }
 
     public String getCurrentTurn() {
@@ -44,4 +45,15 @@ public class Player {
         return false;
     }
 
+    public void recieveCard(Card card) {
+        hand.addCard(card);
+    }
+
+    public void clearHand() {
+        hand.clear();
+    }
+
+    public int getHandValue() {
+        return hand.getValue();
+    }
 }

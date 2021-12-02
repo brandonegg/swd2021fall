@@ -18,6 +18,14 @@ public class Card {
         }
     }
 
+    public Suit getSuit() {
+        return suit;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
     public String getCardName() {
         if (number == 1) {
             return "Ace";

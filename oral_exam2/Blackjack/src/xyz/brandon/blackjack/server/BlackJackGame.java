@@ -48,7 +48,7 @@ public class BlackJackGame extends Thread {
                     if (action.equals("hit")) {
                         Card dealtCard = deck.drawCard();
                         System.out.println("Dealing a " +dealtCard.toString());
-                        blackJackServer.sendUserClientMsg(user, "card=name:" + dealtCard.toString() + "_value:" + dealtCard.getValue());
+                        blackJackServer.sendUserClientMsg(user, "card=suit:" + dealtCard.getSuit().toString() + "_number:" + dealtCard.getNumber());
                         actionQueue.remove(user);
                     } else if (action.equals("stand")) {
                         //TODO: stand

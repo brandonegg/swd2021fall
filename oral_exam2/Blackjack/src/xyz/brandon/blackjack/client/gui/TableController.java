@@ -32,6 +32,9 @@ public class TableController {
     private Label notYourTurnLabel;
 
     @FXML
+    private Label playersScoreLabel;
+
+    @FXML
     private Label yourScoreLabel;
 
     @FXML
@@ -40,13 +43,13 @@ public class TableController {
     @FXML
     private Label messageLabel;
 
-    private ArrayList<String> tableHand;
+    private Hand tableHand;
     private String currentTurn;
     private TableModel tableModel;
     private Player player;
 
     public TableController() {
-        tableHand = new ArrayList<>();
+        tableHand = new Hand();
         player =null;
     }
     public void setupTable(Player player){
@@ -63,9 +66,7 @@ public class TableController {
     void playerHits(ActionEvent event) {
         if (player != null) {
             player.getClient().sendString("action", "username:"+player.getUsername()+"_type:hit", false);
-            ArgsParser args = player.getClient().listenForIdentifier("card");
-            System.out.println("Received card: " + args.get("name"));
-            addCard(args.get("name"));
+            tableModel.recieveCard();
         }
     }
 
@@ -78,6 +79,8 @@ public class TableController {
     }
 
     public void setActivePlayer(String username, boolean currentPlayer) {
+        hideAlert();
+        clearDeck();
         if (currentPlayer) {
             hitButton.setVisible(true);
             standButton.setVisible(true);
@@ -85,23 +88,27 @@ public class TableController {
             activePlayerLabel.setText("CURRENT PLAYER: YOU!");
             yourScoreLabel.setVisible(false);
         } else {
-            hitButton.setVisible(false);
-            standButton.setVisible(false);
-            notYourTurnLabel.setVisible(true);
-            yourScoreLabel.setVisible(true);
             activePlayerLabel.setText("CURRENT PLAYER: " + username);
+            hideControls();
         }
         currentTurn = username;
     }
 
-    public void addCard(String card) {
-        tableHand.add(card);
-        cardPanel.getChildren().add(new Label(card));
+    public void addCard(Card card) {
+        cardPanel.getChildren().add(new Label(card.toString()));
 
     }
 
+    public void updateYourScoreLabel(String score) {
+        yourScoreLabel.setText("Your score: " +score);
+    }
+
+    public void updatePlayerScoreLabel(String score) {
+        System.out.println("updating score"+score);
+        playersScoreLabel.setText("Player's Total: " + score);
+    }
+
     public void clearDeck() {
-        tableHand = new ArrayList<>();
         int i =0;
         for (Node node : cardPanel.getChildren()) {
             if (i>0) {
@@ -111,21 +118,20 @@ public class TableController {
         }
     }
 
+    public void displayAlert(String message) {
+        messageLabel.setVisible(true);
+        messageLabel.setText(message);
+    }
+
     public void hideAlert() {
         messageLabel.setVisible(false);
     }
 
-    public void switchToTableScene(Player player) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("TableInterface.fxml"));
-            Stage stage = (Stage) messageLabel.getScene().getWindow();
-            stage.setUserData(player);
-
-            Scene scene = new Scene(loader.load());
-            stage.setScene(scene);
-        }catch (IOException io){
-            io.printStackTrace();
-        }
+    public void hideControls() {
+        hitButton.setVisible(false);
+        standButton.setVisible(false);
+        notYourTurnLabel.setVisible(true);
+        yourScoreLabel.setVisible(true);
     }
 
 }

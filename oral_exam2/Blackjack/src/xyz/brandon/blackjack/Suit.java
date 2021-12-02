@@ -18,4 +18,5 @@ public enum Suit {
     public Group getGroup() {
         return group;
     }
+
 }
