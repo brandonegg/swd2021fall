@@ -27,7 +27,7 @@ public class GameServer extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        System.out.println("Starting Blackjack server at IP: "+ss.getInetAddress().toString()+":"+ss.getLocalPort());
         // running infinite loop for getting
         // client request
         while (true)

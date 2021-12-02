@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 class ClientHandler extends Thread
 {
@@ -38,23 +39,40 @@ class ClientHandler extends Thread
         {
             try {
 
-                // Ask user what he wants
-                dos.writeUTF("Enter a username: ");
-
                 // receive the answer from client
                 received = dis.readUTF();
+                String identifier = received.split("=")[0];
+                String[] tempargs = received.split("=")[1].split("_");
+                HashMap<String, String> args = new HashMap<String, String>();
+                boolean transmissionSuccess = false;
 
-                if(username == null) {
-                    username = received;
-                    dos.writeUTF("Your username is: " + username);
+                for (String arg : tempargs) {
+                    if (args.containsKey(arg)) {
+                        System.out.println(arg + " sent has conflicting values.");
+                    } else {
+                        args.put(arg.split(":")[0], arg.split(":")[1]);
+                    }
                 }
 
-                if (received.equalsIgnoreCase("exit")) {
-                    connectionActive = false;
+                if (identifier.equals("connection")) {
+                    if (args.containsKey("status") && args.get("status").equals("end")) {
+                        connectionActive = false;
+                    }
+                } else if (identifier.equals("ready")) {
+                    if (args.containsKey("username")) {
+                        System.out.println(args.get("username") + " is ready!"); //TODO: ready player on server side
+                        transmissionSuccess = true;
+                    }
+                }
+
+                if (transmissionSuccess) {
+                    dos.writeUTF(identifier);
+                    dos.flush();
                 }
 
             } catch (IOException e) {
                 e.printStackTrace();
+                connectionActive = false;
             }
         }
 

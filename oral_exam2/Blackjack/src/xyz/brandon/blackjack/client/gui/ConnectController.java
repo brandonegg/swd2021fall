@@ -30,14 +30,6 @@ public class ConnectController {
 
     @FXML
     void connectClient(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ReadyInterface.fxml"));
-            Stage stage = (Stage) messageLabel.getScene().getWindow();
-            Scene scene = new Scene(loader.load());
-            stage.setScene(scene);
-        }catch (IOException io){
-            io.printStackTrace();
-        }
 
         InetAddress address = null;
         int port = -1;
@@ -50,12 +42,12 @@ public class ConnectController {
             return;
         }
 
-        //try {
+        try {
             port = Integer.valueOf(portField.getText());
-        //} catch (Exception e) {
-        //    displayAlert("Invalid port submitted");
-        //    return;
-        //}
+        } catch (Exception e) {
+            displayAlert("Invalid port submitted");
+            return;
+        }
 
         if (port == -1 || address == null) {
             displayAlert("Unable to convert address and port");
@@ -66,6 +58,10 @@ public class ConnectController {
 
             } catch (IOException e) {
                 displayAlert("Unable to connect to server!");
+            }
+
+            if (client.isConnected()) {
+                switchToReadyScene(client);
             }
         }
 
@@ -78,6 +74,19 @@ public class ConnectController {
 
     public void hideAlert() {
         messageLabel.setVisible(false);
+    }
+
+    public void switchToReadyScene(Client client) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ReadyInterface.fxml"));
+            Stage stage = (Stage) messageLabel.getScene().getWindow();
+            stage.setUserData(client);
+
+            Scene scene = new Scene(loader.load());
+            stage.setScene(scene);
+        }catch (IOException io){
+            io.printStackTrace();
+        }
     }
 
 }
