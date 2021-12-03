@@ -1,6 +1,7 @@
 package xyz.brandon.blackjack.server;
 
 import xyz.brandon.blackjack.Card;
+import xyz.brandon.blackjack.client.Hand;
 import xyz.brandon.blackjack.client.Player;
 import xyz.brandon.blackjack.server.network.GameServer;
 
@@ -30,17 +31,19 @@ public class BlackJackGame extends Thread {
         blackJackServer.sendClientsMsg("game=status:start");
 
         gameActive = true;
-        actionQueue = new HashMap<>();
-
-        System.out.println("Shuffling deck...");
-        deck.shuffle();
 
         String dealingTo = null;
-        ArrayList<String> playerOrder = new ArrayList<>(blackJackServer.getPlayers());
-        playerOrder.add("dealer playing");
 
         while (gameActive) {
+            actionQueue = new HashMap<>();
+            deck = new Deck();
+            deck.buildDeck();
+            System.out.println("Shuffling deck...");
+            deck.shuffle();
+            ArrayList<String> playerOrder = new ArrayList<>(blackJackServer.getPlayers());
+            playerOrder.add("dealer playing");
             roundScores.clear();
+            System.out.println("New game with players: " +playerOrder.toString());
 
             while (playerOrder.size() > 0) {
 
@@ -52,17 +55,25 @@ public class BlackJackGame extends Thread {
 
                 if (dealingTo.equals("dealer playing")) {
                     //TODO: Dealer is playing
-                    int previousScore = 0;
+                    int previousValue = 0;
+
                     while (currentPlayer.getHandValue() <= 21) {
+                        previousValue = currentPlayer.getHandValue();
+
                         Card dealtCard = deck.drawCard();
                         currentPlayer.recieveCard(dealtCard);
-                        blackJackServer.sendClientsMsg("card=suit:" + dealtCard.getSuit().toString() + "_number:" + dealtCard.getNumber());
+                        if (currentPlayer.getHandValue() <= 21) {
+                            blackJackServer.sendClientsMsg("card=suit:" + dealtCard.getSuit().toString() + "_number:" + dealtCard.getNumber());
+                        }
                         try {
                             sleep(5000); //temporary delay
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+
                     }
+
+                    roundScores.put(currentPlayer.getUsername(), previousValue);
 
                 } else { //Player is playing
                     boolean userActive = true;
@@ -95,7 +106,26 @@ public class BlackJackGame extends Thread {
                 }
             }
 
-            //TODO: When round is over, calculate who has highest score.
+            String maxScoreUser = null;
+            int maxScore = 0;
+            for (String user : roundScores.keySet()) {
+                if (roundScores.get(user) != null) {
+                    if (roundScores.get(user) > maxScore) {
+                        maxScoreUser = user;
+                        maxScore = roundScores.get(user);
+                    }
+                }
+            }
+            if (maxScoreUser == null) {
+                maxScoreUser = "none";
+            }
+            System.out.println(playerOrder.size());
+            blackJackServer.sendClientsMsg("card=gamestatus:gameover_winner:"+maxScoreUser);
+            try {
+                sleep(10000); //Wait til next game
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 

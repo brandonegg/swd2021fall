@@ -27,4 +27,8 @@ public class Player {
     public int getHandValue() {
         return hand.getValue();
     }
+
+    public void resetHand() {
+        hand = new Hand();
+    }
 }

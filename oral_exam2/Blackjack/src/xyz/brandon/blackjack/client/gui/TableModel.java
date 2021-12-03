@@ -23,6 +23,7 @@ public class TableModel {
         System.out.println("Waiting for turn output...");
         ArgsParser args = client.listenForIdentifier("turn");
         System.out.println("Caught identifier: " +args.getIdentifier());
+        System.out.println("args="+args.getArgs().toString());
 
         if (args.has("username")) {
             String username = args.get("username");

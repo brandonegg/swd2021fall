@@ -22,9 +22,17 @@ public class ServerActivePlayerListener extends Thread {
         doneDealing = false;
 
         ArgsParser args = client.listenForIdentifier("card");
-        while(!args.has("action")) {
+        while(!args.has("gamestatus")) {
             tableModel.getTableController().recieveServerCard(args, player);
             args = client.listenForIdentifier("card");
+        }
+        System.out.println(args.getArgs().toString());
+        System.out.println("Gamestatus over");
+        if (args.get("gamestatus").equals("gameover")) {
+            System.out.println("The round is over! Displaying results");
+            tableModel.getTableController().displayAlert("player: " + args.get("winner") + " got closest to 21 and is our winner!");
+            tableModel.getClientPlayer().resetHand();
+            tableModel.getTableController().updateYourScoreLabel("haven't played");
         }
         tableModel.waitForNewTurn();
 

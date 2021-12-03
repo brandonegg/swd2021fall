@@ -77,6 +77,11 @@ public class TableController {
 
     @FXML
     void playerStands(ActionEvent event) {
+        if (player != null) {
+            client.sendString("action", "username:"+player.getUsername()+"_type:stand", false);
+            updateYourScoreLabel(Integer.toString(player.getHandValue()));
+            tableModel.waitForNewTurn();
+        }
     }
 
     public String getCurrentTurn() {
@@ -84,20 +89,26 @@ public class TableController {
     }
 
     public void setActivePlayer(String username, boolean currentPlayer) {
-        hideAlert();
-        clearDeck();
-        if (currentPlayer) {
-            hitButton.setVisible(true);
-            standButton.setVisible(true);
-            notYourTurnLabel.setVisible(false);
-            activePlayerLabel.setText("CURRENT PLAYER: YOU!");
-            yourScoreLabel.setVisible(false);
-        } else {
-            activePlayerLabel.setText("CURRENT PLAYER: " + username);
-            hideControls();
-            System.out.println("Updating active player to " + username);
-        }
-        currentTurn = username;
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                hideAlert();
+                clearDeck();
+                if (currentPlayer) {
+                    hitButton.setVisible(true);
+                    standButton.setVisible(true);
+                    notYourTurnLabel.setVisible(false);
+                    activePlayerLabel.setText("CURRENT PLAYER: YOU!");
+                    yourScoreLabel.setVisible(false);
+                } else {
+                    activePlayerLabel.setText("CURRENT PLAYER: " + username);
+                    hideControls();
+                    System.out.println("Updating active player to " + username);
+                }
+                currentTurn = username;
+                updatePlayerScoreLabel("none");
+            }
+        });
     }
 
     public void addCard(Card card) {
@@ -106,7 +117,7 @@ public class TableController {
     }
 
     public void updateYourScoreLabel(String score) {
-        yourScoreLabel.setText("Your score: " +score);
+        Platform.runLater(()->yourScoreLabel.setText("Your score: " +score));
     }
 
     public void updatePlayerScoreLabel(String score) {
@@ -115,23 +126,33 @@ public class TableController {
     }
 
     public void clearDeck() {
-        int i =0;
-        ArrayList<Node> nodesToRemove = new ArrayList<Node>();
-        for (Node node : cardPanel.getChildren()) {
-            if (i>0) {
-                nodesToRemove.add(node);
-            }
-            i++;
-        }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                int i =0;
+                ArrayList<Node> nodesToRemove = new ArrayList<Node>();
+                for (Node node : cardPanel.getChildren()) {
+                    if (i>0) {
+                        nodesToRemove.add(node);
+                    }
+                    i++;
+                }
 
-        for (Node node : nodesToRemove) {
-            cardPanel.getChildren().remove(node);
-        }
+                for (Node node : nodesToRemove) {
+                    cardPanel.getChildren().remove(node);
+                }
+            }
+        });
     }
 
     public void displayAlert(String message) {
-        messageLabel.setVisible(true);
-        messageLabel.setText(message);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                messageLabel.setVisible(true);
+                messageLabel.setText(message);
+            }
+        });
     }
 
     public void hideAlert() {
@@ -139,10 +160,15 @@ public class TableController {
     }
 
     public void hideControls() {
-        hitButton.setVisible(false);
-        standButton.setVisible(false);
-        notYourTurnLabel.setVisible(true);
-        yourScoreLabel.setVisible(true);
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                hitButton.setVisible(false);
+                standButton.setVisible(false);
+                notYourTurnLabel.setVisible(true);
+                yourScoreLabel.setVisible(true);
+            }
+        });
     }
 
     public void recieveServerCard(ArgsParser args, Player player) {

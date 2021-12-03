@@ -23,7 +23,6 @@ public class GameServer extends Thread {
         this.playerClientMapper = new HashMap<>();
         blackJackGame = new BlackJackGame(this);
         connectedClients = new ArrayList<>();
-        blackJackGame.start();
         gameActive = false;
     }
 
