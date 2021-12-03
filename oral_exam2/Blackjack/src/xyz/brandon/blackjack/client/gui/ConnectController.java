@@ -14,20 +14,41 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * Controller for ConnectInterface.fxml
+ */
 public class ConnectController {
 
+    /**
+     * Main pane of connect interface
+     */
     @FXML
     private GridPane ConnectPane;
 
+    /**
+     * Field for entering server address
+     */
     @FXML
     private TextField addressField;
 
+    /**
+     * Label for displaying alerts
+     */
     @FXML
     private Label messageLabel;
 
+    /**
+     * Field for entering server port
+     */
     @FXML
     private TextField portField;
 
+    /**
+     * Called when connect button pressed. Attempts to connect to provided
+     * address field and port field. Notifies user with alert as to why
+     * connection failed. If connection successful, advance to ready scene.
+     * @param event connect button pressed event
+     */
     @FXML
     void connectClient(ActionEvent event) {
 
@@ -66,15 +87,26 @@ public class ConnectController {
 
     }
 
+    /**
+     * Method for displaying alert
+     * @param message   message to display
+     */
     public void displayAlert(String message) {
         messageLabel.setVisible(true);
         messageLabel.setText(message);
     }
 
+    /**
+     * Hides alert
+     */
     public void hideAlert() {
         messageLabel.setVisible(false);
     }
 
+    /**
+     * Switches to ReadyInterface scene. Passes client data along to next scene.
+     * @param client    client object to pass to next scene.
+     */
     public void switchToReadyScene(Client client) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ReadyInterface.fxml"));

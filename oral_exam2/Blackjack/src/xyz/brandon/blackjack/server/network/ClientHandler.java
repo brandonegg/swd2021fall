@@ -1,30 +1,57 @@
 package xyz.brandon.blackjack.server.network;
 
-import xyz.brandon.blackjack.server.BlackJackGame;
 import xyz.brandon.blackjack.utils.ArgsParser;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 
+/**
+ * Object for handling a client to server connection. Threaded to allow
+ * for multiple client connections. Interface for sending and receiving data
+ * between server and client.
+ */
 class ClientHandler extends Thread
 {
+    /**
+     * Associated gameserver the client is speaking with
+     */
     private GameServer gameServer;
+    /**
+     * stored username of client (initially null)
+     */
     private String username;
+    /**
+     * client input stream
+     */
     private final DataInputStream dis;
+    /**
+     * client output stream
+     */
     private final DataOutputStream dos;
+    /**
+     * Socket handling stream
+     */
     private final Socket s;
+    /**
+     * Stored queue for output data (when needing to wait for a response to output)
+     */
     private ArrayList<String> dataOutQueue;
+    /**
+     * Whether client in game
+     */
     private boolean inGame;
 
 
-    // Constructor
+    /**
+     * Creates a client connection, initializes member variables
+     * @param gameServer    GameServer object client is speaking to
+     * @param s             Socket clienthandler and client are on
+     * @param dis           input data stream
+     * @param dos           output data stream
+     */
     public ClientHandler(GameServer gameServer, Socket s, DataInputStream dis, DataOutputStream dos)
     {
         this.gameServer = gameServer;
@@ -36,6 +63,11 @@ class ClientHandler extends Thread
         dataOutQueue = new ArrayList<>();
     }
 
+    /**
+     * Main method which runs when clienthandler thread is started. Continually listens to send
+     * data from server to client and listen for client data sent to server. Processes accordingly
+     * @see xyz.brandon.blackjack.client.network.Client
+     */
     @Override
     public void run()
     {
@@ -113,6 +145,10 @@ class ClientHandler extends Thread
         System.out.println("Ended client handler loop transmission success");
     }
 
+    /**
+     * Send a output message to the connected client. Skips queue
+     * @param message   message to send
+     */
     public void sendMessage(String message) {
         //System.out.println("last Test:"+message);
         //dataOutQueue.add(message);
@@ -125,10 +161,18 @@ class ClientHandler extends Thread
         }
     }
 
+    /**
+     * Returns the associated username of the client's player
+     * @return  username of player
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Returns whether player is in game or not
+     * @return  true if player in game
+     */
     public boolean isInGame() {
         return inGame;
     }

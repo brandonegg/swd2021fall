@@ -1,6 +1,5 @@
 package xyz.brandon.blackjack.client.gui;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,20 +14,41 @@ import xyz.brandon.blackjack.client.network.Client;
 
 import java.io.IOException;
 
+/**
+ * Controller for ReadyInterface.fxml
+ */
 public class ReadyController {
 
+    /**
+     * Main ready panel scene body
+     */
     @FXML
     private GridPane ReadyPanel;
 
+    /**
+     * Message label used for displaying alerts
+     */
     @FXML
     private Label messageLabel;
 
+    /**
+     * ready button for readying up
+     */
     @FXML
     private Button readyButton;
 
+    /**
+     * Username field for inputting username
+     */
     @FXML
     private TextField usernameField;
 
+    /**
+     * Event called when ready button pressed. Verifies value is username field is a valid username,
+     * then sends this data to server and notifies it the user is ready. Then waits for server to send
+     * game start message and switches to TableInterface.fxml scene.
+     * @param event
+     */
     @FXML
     void sendReady(ActionEvent event) {
         String formattedUsername = usernameField.getText().replaceAll("\\s", ""); //Can't have spaces in username
@@ -51,15 +71,27 @@ public class ReadyController {
         }
     }
 
+    /**
+     * Display alert message at bottom of screen.
+     * @param message   message to display
+     */
     public void displayAlert(String message) {
         messageLabel.setVisible(true);
         messageLabel.setText(message);
     }
 
+    /**
+     * Hides the alert message
+     */
     public void hideAlert() {
         messageLabel.setVisible(false);
     }
 
+    /**
+     * Method to switch to table scene, called after user has readied up.
+     * @param player    Reference to player object. Passed to next scene
+     * @param client    Reference to client object. Passed to next scene
+     */
     public void switchToTableScene(Player player, Client client) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("TableInterface.fxml"));

@@ -8,15 +8,23 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Main client side GUI application class
+ */
 public class ClientApplication extends Application {
 
-    private Scene connectScene;
-    private Scene readyScene;
-
+    /**
+     * Called when object run, launches the application
+     * @param args  input args
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Starts the Blackjack application, opens the ConnectInterface.fxml scene.
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
         try {

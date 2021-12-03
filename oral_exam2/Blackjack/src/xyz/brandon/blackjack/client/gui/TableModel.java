@@ -6,19 +6,42 @@ import xyz.brandon.blackjack.client.Player;
 import xyz.brandon.blackjack.client.network.Client;
 import xyz.brandon.blackjack.utils.ArgsParser;
 
+/**
+ * Backend model for the fxml TableInferface
+ */
 public class TableModel {
 
+    /**
+     * Reference to client's player object
+     */
     private Player clientPlayer;
+    /**
+     * Reference to table controller for TableInterface
+     */
     private TableController tableController;
-    private boolean gameActive;
+    /**
+     * Reference to client object
+     */
     private Client client;
 
+    /**
+     * Table model constructor. Created by TableController on setup.
+     * @param tableController   Reference to table controller
+     * @param clientPlayer      Reference to player object
+     * @param client            Reference to client object
+     */
     public TableModel(TableController tableController, Player clientPlayer, Client client) {
         this.tableController = tableController;
         this.clientPlayer = clientPlayer;
         this.client = client;
     }
 
+    /**
+     * Wait for new turn message from server, then update table interface to represent
+     * the current active player sent from server.
+     * @see Client
+     * @see xyz.brandon.blackjack.server.BlackJackGame
+     */
     public void waitForNewTurn() {
         System.out.println("Waiting for turn output...");
         ArgsParser args = client.listenForIdentifier("turn");
@@ -42,12 +65,26 @@ public class TableModel {
 
     }
 
+    /**
+     * Handler for receiving data from server when another player other than client's player
+     * is playing (including dealer)
+     * @param otherPlayer   local player object representation of active player
+     * @return              Reference to the thread listening for active player actions
+     * @see ServerActivePlayerListener
+     */
     public ServerActivePlayerListener recieveOtherPlayerAction(Player otherPlayer) {
         ServerActivePlayerListener serverActivePlayerListener = new ServerActivePlayerListener(otherPlayer, client, this);
         serverActivePlayerListener.start();
         return serverActivePlayerListener;
     }
 
+    /**
+     * Method used to listen for card being sent from server. Used when listening for server message
+     * needs to be handled on a separate thread so args are directly sent rather than listened for.
+     * @param args      Already received server args
+     * @param receiver  Player receiving the card
+     * @return          True is player is alright to continue, false if player stands or busts.
+     */
     public boolean recieveCard(ArgsParser args, Player receiver) {
         System.out.println("Received card: " + args.get("name"));
         if (args.has("suit") && args.has("number")) {
@@ -70,15 +107,30 @@ public class TableModel {
 
         return true;
     }
+
+    /**
+     * Used for receiving card when its client's turn and server client communications are handled on the
+     * TableController thread.
+     * @param receiver  Player to receive card
+     * @return          True if player can continue, false if player busts or stands.
+     */
     public boolean recieveCard(Player receiver) {
         ArgsParser args = client.listenForIdentifier("card");
         return recieveCard(args, receiver);
     }
 
+    /**
+     * Returns client player reference
+     * @return  player object of client
+     */
     public Player getClientPlayer() {
         return clientPlayer;
     }
 
+    /**
+     * Method called when a player busts when receiving a new card.
+     * @param player    player that busts
+     */
     public void playerBusts(Player player) {
         tableController.displayAlert("BUST!");
         if (player.getUsername().equals(clientPlayer.getUsername())) {
@@ -90,6 +142,10 @@ public class TableModel {
         }
     }
 
+    /**
+     * returns reference table controller object
+     * @return  TableController object
+     */
     public TableController getTableController() {
         return tableController;
     }

@@ -1,23 +1,46 @@
 package xyz.brandon.blackjack.server;
 
 import xyz.brandon.blackjack.Card;
-import xyz.brandon.blackjack.client.Hand;
 import xyz.brandon.blackjack.client.Player;
 import xyz.brandon.blackjack.server.network.GameServer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 
+/**
+ * Game manager for handling general black jack game functionality
+ * from server side. Handled in separate thread.
+ * @see Thread
+ */
 public class BlackJackGame extends Thread {
 
+    /**
+     * Reference to blackjack game server object
+     */
     private GameServer blackJackServer;
+    /**
+     * Servers deck of cards to deal from
+     */
     private Deck deck;
-    private int playerCount;
+    /**
+     * Stores whether the game manager is currently managing a game.
+     */
     private boolean gameActive;
+    /**
+     * Stores queued actions received from clients
+     */
     private HashMap<String, String> actionQueue;
+    /**
+     * Keeps track of the scores of each player during a round,
+     * a bust is represented as null.
+     */
     private HashMap<String, Integer> roundScores; //score of null = bust
 
+    /**
+     * Constructs a blackjack game server. Requires a game server object
+     * for sending data back to connected clients.
+     * @param blackJackServer   Blackjack game server reference
+     */
     public BlackJackGame(GameServer blackJackServer) {
         this.deck = new Deck();
         deck.buildDeck();
@@ -25,6 +48,10 @@ public class BlackJackGame extends Thread {
         roundScores = new HashMap<>();
     }
 
+    /**
+     * Main method ran when thread is started. Handles game functionality
+     * such as dealing cards and selecting whos turn it is.
+     */
     @Override
     public void run() {
         System.out.println("Starting game"); //testing
@@ -54,7 +81,6 @@ public class BlackJackGame extends Thread {
                 Player currentPlayer = new Player(dealingTo);
 
                 if (dealingTo.equals("dealer playing")) {
-                    //TODO: Dealer is playing
                     int previousValue = 0;
 
                     while (currentPlayer.getHandValue() <= 21) {
@@ -129,10 +155,19 @@ public class BlackJackGame extends Thread {
         }
     }
 
+    /**
+     * Returns whether game is active or not
+     * @return  true for game active, false if inactive (aka game thread has not been started yet)
+     */
     public boolean isGameActive() {
         return gameActive;
     }
 
+    /**
+     * Queues an action performed by a client
+     * @param username  username of player which performed action
+     * @param action    the action they attempt to preform (hit, stand, bust)
+     */
     public void queueAction(String username, String action) {
         System.out.println("Queueing action " + action + " for user: " +username);
         actionQueue.put(username, action);
