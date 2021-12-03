@@ -112,8 +112,7 @@ public class TableController {
     }
 
     public void addCard(Card card) {
-        cardPanel.getChildren().add(new Label(card.toString()));
-
+        Platform.runLater(()->cardPanel.getChildren().add(new Label(card.toString())));
     }
 
     public void updateYourScoreLabel(String score) {
